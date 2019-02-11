@@ -38,8 +38,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class Utils {
@@ -98,6 +100,154 @@ public class Utils {
             return "";
         }
         return str;
+    }
+
+    public static int SendMultipartJsonOrder(String postURL, final String JSONOrderStr, String filespath) {
+        int status = -1;
+        try {
+            OkHttpClient.Builder b = new OkHttpClient.Builder();
+            b.readTimeout(Global.ReadTimeout, TimeUnit.MILLISECONDS);
+            b.writeTimeout(Global.ReadTimeout, TimeUnit.MILLISECONDS);
+            b.connectTimeout(Global.ConnectTimeout, TimeUnit.MILLISECONDS);
+            OkHttpClient client = b.build();
+
+            final URL url = new URL(postURL);
+
+            RequestBody requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("jsonorder", JSONOrderStr)
+                    .addFormDataPart("filespath", filespath)
+                    .build();
+
+            Request request = new Request.Builder()
+                    .url(url)
+                    .post(requestBody)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                // Successful send
+                status = response.code();
+            }
+        } catch (Throwable e) {
+            QuickActivity.log("Utils sendJSON ex=" + e);
+            status = -1;
+        }
+        return status;
+    }
+
+    public static String SendMultipartPHP(String postURL, String filespath) {
+        String returntxt = "";
+        int status = -1;
+        try {
+            OkHttpClient.Builder b = new OkHttpClient.Builder();
+            b.readTimeout(Global.ReadTimeout, TimeUnit.MILLISECONDS);
+            b.writeTimeout(Global.ReadTimeout, TimeUnit.MILLISECONDS);
+            b.connectTimeout(Global.ConnectTimeout, TimeUnit.MILLISECONDS);
+            OkHttpClient client = b.build();
+
+            final URL url = new URL(postURL);
+
+            RequestBody requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("filespath", filespath)
+                    .build();
+
+            Request request = new Request.Builder()
+                    .url(url)
+                    .post(requestBody)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                // Successful send
+                status = response.code();
+                returntxt = response.body().string();
+            }
+        } catch (Throwable e) {
+            QuickActivity.log("Utils sendPHP ex=" + e);
+            status = -1;
+        }
+        return returntxt;
+    }
+
+    public static String SendMultipartDatePHP(String postURL,
+                                              String filespath,
+                                              String dateYYYY,
+                                              String dateMM,
+                                              String dateDD) {
+
+        String returntxt = "";
+        int status = -1;
+
+        try {
+            OkHttpClient.Builder b = new OkHttpClient.Builder();
+            b.readTimeout(Global.ReadTimeout, TimeUnit.MILLISECONDS);
+            b.writeTimeout(Global.ReadTimeout, TimeUnit.MILLISECONDS);
+            b.connectTimeout(Global.ConnectTimeout, TimeUnit.MILLISECONDS);
+            OkHttpClient client = b.build();
+
+            final URL url = new URL(postURL);
+
+            RequestBody requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("filespath", filespath)
+                    .addFormDataPart("dateYYYY", dateYYYY)
+                    .addFormDataPart("dateMM", dateMM)
+                    .addFormDataPart("dateDD", dateDD)
+                    .build();
+
+            Request request = new Request.Builder()
+                    .url(url)
+                    .post(requestBody)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                // Successful send
+                status = response.code();
+                returntxt = response.body().string();
+            }
+        } catch (Throwable e) {
+            QuickActivity.log("Utils sendDate main ex=" + e);
+        }
+        return returntxt;
+    }
+
+    public static int SendMultipartAdhoc(String postURL,
+                                         final String sendserver,
+                                         String filespath) {
+        int status = -1;
+
+        try {
+            OkHttpClient.Builder b = new OkHttpClient.Builder();
+            b.readTimeout(Global.ReadTimeout, TimeUnit.MILLISECONDS);
+            b.writeTimeout(Global.ReadTimeout, TimeUnit.MILLISECONDS);
+            b.connectTimeout(Global.ConnectTimeout, TimeUnit.MILLISECONDS);
+            OkHttpClient client = b.build();
+
+            final URL url = new URL(postURL);
+
+            RequestBody requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("filespath", filespath)
+                    .addFormDataPart("sendserver", sendserver)
+                    .build();
+
+            Request request = new Request.Builder()
+                    .url(url)
+                    .post(requestBody)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                // Successful send
+                status = response.code();
+            }
+        } catch (Throwable e) {
+            QuickActivity.log("Utils sendAH main ex=" + e);
+        }
+        return status;
     }
 
     public static String GetDateTime() {

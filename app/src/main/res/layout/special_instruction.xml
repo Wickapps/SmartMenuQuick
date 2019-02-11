@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~  Copyright (C) 2019 Mark Wickham
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~  http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollViewSI"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:scrollbars="vertical">
+
+    <LinearLayout
+        android:id="@+id/LinearLayoutSI"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:minWidth="360dip"
+        android:background="@drawable/border_grey_tight_inner"
+        android:padding="20dip"
+        android:layout_margin="20dip"
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/SItext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dip"
+            android:typeface="sans"
+            android:text="Special Instruction"
+            android:textColor="@color/white"></TextView>
+
+        <EditText
+            android:layout_width="250dip"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:textSize="22dip"
+            android:singleLine="true"
+            android:maxLength="42"
+            android:inputType="textNoSuggestions"
+            android:layout_marginBottom="10dip"
+            android:layout_marginTop="10dip"
+            android:id="@+id/SIedit"
+            android:layout_gravity="center"
+            android:gravity="center"></EditText>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:weightSum="2"
+            android:layout_marginTop="5dip"
+            android:layout_marginBottom="24dip"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/SIcancel"
+                android:layout_height="wrap_content"
+                android:layout_width="0dip"
+                android:text="CANCEL"
+                android:layout_marginLeft="30dip"
+                android:layout_marginRight="8dip"
+                android:layout_weight="1.0"
+                android:layout_gravity="center_vertical"></Button>
+
+            <Button
+                android:id="@+id/SIadd"
+                android:layout_height="wrap_content"
+                android:layout_width="0dip"
+                android:text="SAVE"
+                android:layout_marginLeft="8dip"
+                android:layout_marginRight="30dip"
+                android:layout_weight="1.0"
+                android:layout_gravity="center_vertical"></Button>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

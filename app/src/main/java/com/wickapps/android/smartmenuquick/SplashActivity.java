@@ -60,7 +60,7 @@ import java.util.Set;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class SmartMenu extends Activity {
+public class SplashActivity extends Activity {
 
     int i;
     Locale lc;
@@ -94,10 +94,8 @@ public class SmartMenu extends Activity {
                 failedAuth1();
             } else if (returnCode == 2) {
                 failedAuth2();
-                //Toast.makeText(SmartMenu.this, "Server not available.", Toast.LENGTH_SHORT).show();
             } else if (returnCode == 3) {
                 failedAuth3();
-                //Toast.makeText(StartActivity.this, "Local files not read.", Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -107,12 +105,12 @@ public class SmartMenu extends Activity {
         super.onCreate(savedInstanceState);
 
         try {
-            mLog = new ConnectionLog();
+            mLog = new ConnectionLog(this);
         } catch (IOException e) {
         }
 
         if (Global.LoggedIn) {
-            Intent kintent = new Intent(getApplicationContext(), TakeOut.class);
+            Intent kintent = new Intent(getApplicationContext(), QuickActivity.class);
             kintent.setFlags((Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));
             startActivity(kintent);
         } else {
@@ -542,7 +540,7 @@ public class SmartMenu extends Activity {
 
     public void failedAuth1() {
         // Data connection and Local Files not Available
-        AlertDialog alertDialog = new AlertDialog.Builder(SmartMenu.this).create();
+        AlertDialog alertDialog = new AlertDialog.Builder(SplashActivity.this).create();
         alertDialog.setTitle("Connection 1");
         alertDialog.setIcon(android.R.drawable.stat_sys_warning);
         alertDialog.setMessage("SmartMenu could not be started. Please check your settings.");
@@ -556,7 +554,7 @@ public class SmartMenu extends Activity {
     }
 
     public void failedAuth2() {
-        AlertDialog alertDialog = new AlertDialog.Builder(SmartMenu.this).create();
+        AlertDialog alertDialog = new AlertDialog.Builder(SplashActivity.this).create();
         alertDialog.setTitle("Connection 2");
         alertDialog.setIcon(android.R.drawable.stat_sys_warning);
         alertDialog.setMessage("SmartMenu could not be started. Please check your settings.");
@@ -570,7 +568,7 @@ public class SmartMenu extends Activity {
     }
 
     public void failedAuth3() {
-        AlertDialog alertDialog = new AlertDialog.Builder(SmartMenu.this).create();
+        AlertDialog alertDialog = new AlertDialog.Builder(SplashActivity.this).create();
         alertDialog.setTitle("Connection 3");
         alertDialog.setIcon(android.R.drawable.stat_sys_warning);
         alertDialog.setMessage("SmartMenu could not be started. Please check your settings.");

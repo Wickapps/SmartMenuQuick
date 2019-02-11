@@ -1,6 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Copyright (C) 2019 Mark Wickham
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~  http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  -->
+
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="logo_color">#FFFF0F</color>
+    <color name="header_row_color">#C80000</color>
+    <color name="version_color">#f0f0f0</color>
+    <color name="version_bkgrd">#1a1a48</color>
+    <color name="title_color">#f0f0f0</color>
+    <color name="table_color">#f0f0f0</color>
+    <color name="title_glow">#F00</color>
+    <color name="menu_color">#FFFF0F</color>
+    <color name="menu_glow">#F00</color>
+    <color name="semitrans">#80000000</color>
+    <color name="progress_start">#22220000</color>
+    <color name="progress_end">#11110000</color>
+
+    <color name="black">#000000</color>
+    <color name="black444">#444444</color>
+    <color name="black888">#888888</color>
+    <color name="blackCCC">#999999</color>
+    <color name="almostwhite">#eeeeee</color>
+    <color name="white">#ffffffff</color>
+    <color name="transwhite">#20ffffff</color>
+    <color name="transparent">#10ffffff</color>
+
+    <color name="rgb000">#000000</color>
+    <color name="rgb111">#111111</color>
+    <color name="rgb222">#222222</color>
+    <color name="rgb333">#333333</color>
+    <color name="rgb444">#444444</color>
+    <color name="rgb666">#666666</color>
+    <color name="rgb888">#888888</color>
+    <color name="rgb999">#999999</color>
+    <color name="rgbbbb">#BBBBBB</color>
+    <color name="rgbccc">#CCCCCC</color>
+    <color name="rgbddd">#DDDDDD</color>
+    <color name="rgbeee">#EEEEEE</color>
+    <color name="rgbfff">#FFFFFF</color>
+
+    <color name="rgbff0">#FF0000</color>
+
+    <color name="purple1">#49176D</color>
+    <color name="purplehsv">#608e36c2</color>
+    <color name="purple1bright">#8c1cad</color>
+    <color name="purple1brightlight">#9850ad</color>
+    <color name="purple2">#ac83ca</color>
+    <color name="purple2light">#c7adda</color>
+    <color name="lilygrey">#70807F83</color>
+    <color name="green">#00ff00</color>
+    <color name="red">#ff0000</color>
+    <color name="orange">#fe7f3d</color>
+    <color name="blue">#0000ff</color>
+    <color name="rgbfad666">#fad666</color>
+    <color name="rgb3a6e52">#3a6e52</color>
+
+    <color name="light_grey">#feee</color>
+    <color name="dark_greyless">#8ccc</color>
+    <color name="dark_grey">#f999</color>
+    <color name="darker_grey">#f444</color>
+    <color name="graywhite">#70e4e4e4</color>
+
 </resources>

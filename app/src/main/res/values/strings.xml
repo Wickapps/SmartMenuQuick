@@ -1,6 +1,249 @@
-<resources>
-    <string name="app_name">SmartMenu Quick</string>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~  Copyright (C) 2019 Mark Wickham
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~  http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  -->
 
-    <string name="msg_crash_text">\n\nAn error has occurred. \n\nSmartMenu has unexpectedly stopped.\nPlease restart.\n\n</string>
-    <string name="msg_crash_title">System Error</string>
+<resources>
+
+	<string name="app_name">SmartMenu Quick</string>
+
+	<string name="tab1name">Start</string>
+	<string name="tab2name">Menu</string>
+	<string name="tab3name">Send Order</string>
+	<string name="tab4name">Map</string>
+	<string name="tab5name">Pictures</string>
+	<string name="tab6name">Lilys</string>
+
+	<string name="blankStr"></string>
+
+	<string name="welcomeHeader">Welcome to</string>
+
+	<string name="msg_about_developer">Developed by</string>
+	<string name="msg_about_developer_value">Mark Wickham</string>
+	<string name="msg_about_contact">Contact</string>
+	<string name="msg_about_contact_value">comment@lilysbeijing.com</string>
+	<string name="msg_about_version_name">Version name</string>
+	<string name="msg_about_app_name">App name</string>
+	<string name="msg_about_version_code">Version code</string>
+	<string name="msg_about_feedback">Feedback</string>
+	<string name="msg_about_filesource">File Source</string>
+	<string name="msg_about_smartmenuid">SmartMenu ID</string>
+	<string name="msg_about_cloudIP">Public Cloud</string>
+	<string name="msg_about_localIP">Private Cloud</string>
+	<string name="msg_about_serverIP">Server IP</string>
+	<string name="msg_about_storemenuid">Store/Menu ID</string>
+	<string name="msg_about_menuver">Menu Version</string>
+	<string name="msg_about_deviceid">Device ID</string>
+	<string name="msg_about_ticketnum">Ticket Number</string>
+	<string name="msg_about_wifistatus">Wifi Status</string>
+	<string name="msg_about_mode">Mode</string>
+
+	<string name="msg_main_menu_about">About</string>
+	<string name="msg_main_menu_feedback">Feedback</string>
+	<string name="msg_main_menu_exit">Exit</string>
+	<string name="msg_main_menu_info">Info</string>
+	<string name="msg_main_menu_pref">Settings</string>
+	<string name="msg_main_menu_share">Share</string>
+	<string name="msg_main_menu_comment">Comment</string>
+	<string name="msg_main_menu_last">Last Order</string>
+
+	<string name="msg_crash_text">\n\n\n\nAn error has occurred. \n\n\n\nSmartMenu has unexpectedly stopped.\n\n\n\nPlease restart.\n\n\n\n\n</string>
+	<string name="msg_crash_title">System Error</string>
+
+	<string name="msg_password">Password</string>
+	<string name="msg_modify_item">Modify Ordered Item</string>
+	<string name="msg_saletype_choose">Choose Sale Type</string>
+	<string name="msg_no_tickets">\n\n\nNo Tickets Available\n\n\n</string>
+	<string name="msg_no_ticket_selected">No Ticket Selected</string>
+	<string name="msg_operation_not_allowed">\n\n\nOperation Not Allowed\n\n\n</string>
+
+	<string name="feedback_title">Feedback</string>
+	<string name="feedback_text">Thank you for submitting your feedback...</string>
+	<string name="feedback_msg">We are always happy to receive your feedback.</string>
+	<string name="feedback_back">BACK</string>
+	<string name="feedback_send">SEND</string>
+	<string name="feedback_info">INFO</string>
+
+	<string name="rating_msg">Rate This Dish !</string>
+	<string name="rating_acomment">Add Comment (optional):</string>
+	<string name="rating_vcomment">View Dish Comments</string>
+	<string name="rating_rscomment">Rating Summary</string>
+	<string name="rating_commenttitle">Dish Comments</string>
+
+	<string name="newdish_title">New Dish Suggestion</string>
+	<string name="newdish_text">Thank you for submitting your new dish suggestion...</string>
+
+	<string name="search_keyword_title">Search Keyword</string>
+
+	<string name="tab3_sending_title">Sending</string>
+	<string name="tab3_sending">Your order is being sent ...</string>
+	<string name="tab3_sending_p1">Your order is being printed ...</string>
+	<string name="tab3_sending_p23">Your order is being printed ......</string>
+	<string name="tab3_confirm_order">Confirm Order</string>
+	<string name="tab3_confirm_order_text">Your order will now be sent. \n</string>
+
+	<string name="tab3_empty_title">Order Empty</string>
+	<string name="tab3_empty_text">Please add items to your order from the menu</string>
+	<string name="tab3_unprinted_title">Order has unprinted dishes</string>
+	<string name="tab3_unprinted_text">Please print or delete items before closing the tab</string>
+	<string name="tab3_opentabs_title">Open tabs</string>
+	<string name="tab3_opentabs_text">The register currently has open tabs. Continue if you wish to exit without closing all tabs.</string>
+
+	<string name="tab3_notempty_title">Order Not Empty</string>
+	<string name="tab3_notempty_text">Your Order contains items.  Starting a new order will delete all existing items.</string>
+
+	<string name="tab3_settings_title">Take Out Settings</string>
+	<string name="tab3_settings_text">Please provide your name, phone number and delivery address in the settings</string>
+
+	<string name="tab3_update_item_title">Update Item</string>
+	<string name="tab3_update_item_text">Selected order item is:\n</string>
+
+	<string name="tab3_choose_table_title">Choose Table:</string>
+	<string name="tab3_choose_table_text">Please choose your table for your order.</string>
+
+	<string name="tab1_table">Choose Your Table</string>
+	<string name="tab1_gotomenu">Go To Menu</string>
+
+	<string name="tab3_contains_items_title">Order Contains Items</string>
+	<string name="tab3_contains_items_text">Your Order contains items.  Exiting will delete all existing items.</string>
+	<string name="tab3_contains_items_clear">Your Order contains items.  Clearing will delete all existing items. To delete a single item, click on the item in the Order List.</string>
+
+	<string name="special_ins_title">Special Instruction</string>
+	<string name="special_ins_custom">Custom</string>
+	<string name="special_string">Special: </string>
+	<string name="special_ins_text1">Enter the special instructions for your dish : \n</string>
+
+	<string name="qty_title">Quantity</string>
+
+	<string name="added_to">Added to Order: </string>
+
+	<string name="tab2_si_cancel">CANCEL</string>
+	<string name="tab2_si_save">SAVE</string>
+	<string name="tab2_list">LIST</string>
+	<string name="tab2_pics">PICS</string>
+
+	<string name="ordersent_t1">Your Order Has Been Sent</string>
+	<string name="ordersent_t2">Your food will arrive soon.\n\nFor additional items,\nplease start a new order.</string>
+	<string name="ordersent_new">NEW ORDER</string>
+	<string name="ordersent_exit">EXIT</string>
+
+	<string name="tabinfo_locations">Our Locations</string>
+	<string name="tabinfo_welcome">Welcome Message</string>
+	<string name="tabinfo_feedback">Send Feedback</string>
+	<string name="tabinfo_about">About SmartMenu</string>
+	<string name="tabinfo_vote">Vote for Favorites</string>
+	<string name="tabinfo_discuss">Discussion Forum</string>
+
+	<string name="tab3_cancel">CANCEL</string>
+	<string name="tab3_confirm">CONFIRM</string>
+	<string name="tab3_continue">CONTINUE</string>
+	<string name="tab3_back">BACK</string>
+	<string name="tab3_addtoorder">ADD TO ORDER</string>
+	<string name="tab3_exit">EXIT</string>
+	<string name="tab3_info">INFO</string>
+	<string name="tab3_delete">DELETE</string>
+	<string name="tab3_qty">QUANTITY</string>
+	<string name="tab3_settings">SETTINGS</string>
+	<string name="tab3_send">Send</string>
+	<string name="tab3_save">Save</string>
+	<string name="tab3_new">New</string>
+	<string name="tab3_close">Close</string>
+	<string name="tab3_resend">RE-SEND</string>
+	<string name="tab3_update">UPDATE</string>
+	<string name="tab3_clear">Clear</string>
+
+	<string name="tab3_cash">Cash</string>
+	<string name="tab3_credit">Credit</string>
+	<string name="tab3_tab">Tab</string>
+	<string name="tab3_open">Open</string>
+	<string name="tab3_pay">Pay</string>
+	<string name="tab3_auto">Auto</string>
+
+	<string name="tab3_thank">Thank You!\nYour order has been sent\nYour food will arrive soon.</string>
+	<string name="tab3_select_qty">Select Quantity</string>
+
+	<string name="tab3_pos_err_1">Sorry, your order could not be completely sent. </string>
+	<string name="tab3_pos_err_2">. Please resend the order to print on the failed devices.</string>
+
+	<string name="tab3_rmb">RMB</string>
+	<string name="tab3_rmb0">0 RMB</string>
+
+	<string name="localfiles">Local Files</string>
+	<string name="settings">Settings</string>
+	<string name="connections">Connection Status</string>
+	<string name="cacheDeleted">The Local pictures will be deleted</string>
+	<string name="cacheReloaded">The Local files have been reloaded</string>
+	<string name="cacheNotReloaded">The Local files could NOT be reloaded</string>
+	<string name="cloudUpdated">The Cloud type has been updated</string>
+
+	<string name="daily">Daily Special</string>
+
+	<string name="action_view">View</string>
+	<string name="action_category">Category</string>
+
+	<string name="view_list">Menu Items List</string>
+	<string name="view_gall">Large Picture</string>
+	<string name="view_grid">Small Pictures</string>
+
+	<string name="totalstring">Total: RMB</string>
+
+	<string name="login_title">Login</string>
+	<string name="login_float">Register Float</string>
+	<string name="login_start">Start</string>
+	<string name="login_person_name">Please Choose a Name</string>
+	<string name="login_select_name">Select a Name</string>
+	<string name="login_new_user">Add User</string>
+	<string name="login_save">Save</string>
+
+	<string name="login_new_topic">Add Topic</string>
+	<string name="login_delete_title">Delete Item</string>
+	<string name="login_delete_text">The selected item will be deleted.</string>
+
+	<string name="table_select_from_name">Choose Table</string>
+	<string name="table_select_to_name">Choose Table</string>
+	<string name="table_from_title">Select the table you want to move from</string>
+	<string name="table_to_title">Select the new table</string>
+	<string name="table_move_but">Move</string>
+	<string name="table_clear_title">Select the table you want to clear</string>
+	<string name="table_select_clear_name">Choose Table</string>
+	<string name="table_clear_but">Clear</string>
+	<string name="reload_date">Choose Date</string>
+
+	<string name="boot_continue">Continue</string>
+	<string name="boot_title">Initial Settings</string>
+	<string name="boot_intro">Welcome to SmartMenu. Please enter your initial settings. You will not have to enter these settings again. The settings can be changed at a later time.</string>
+
+	<string name="register_reg_sum">Register Summary</string>
+	<string name="register_login_time">Login Time</string>
+	<string name="register_cur_time">Current Time</string>
+	<string name="register_server_name">Server Name</string>
+	<string name="register_reg_float">Float</string>
+	<string name="register_reg_cash">Cash Sales</string>
+	<string name="register_reg_credit">Credit Sales</string>
+	<string name="register_reg_other">Other Sales</string>
+	<string name="register_reg_cashtotal">Physical Cash</string>
+	<string name="register_reg_salestotal">Sales Total</string>
+	<string name="register_reg_payouttotal">Payout Total</string>
+	<string name="register_orders_sent">Orders Sent</string>
+
+	<string name="register_payout">Payout</string>
+	<string name="register_payout_desc">Enter the Payout Details</string>
+	<string name="register_pay_amount">Payout Amount</string>
+	<string name="register_pay_desc">Payout Description</string>
+
+	<string name="register_print_sum">Print</string>
+	<string name="register_open_drawer">Open Drawer</string>
+	<string name="register_logout">Logout</string>
+
 </resources>

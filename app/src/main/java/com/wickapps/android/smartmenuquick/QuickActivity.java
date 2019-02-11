@@ -144,7 +144,7 @@ import java.util.regex.Pattern;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class Quick extends Activity {
+public class QuickActivity extends Activity {
     private Button newButton, closeButton, clearButton, p1Button, p2Button, p3Button, ODButton;
     private TextView tvcc, tvautoprint;
 

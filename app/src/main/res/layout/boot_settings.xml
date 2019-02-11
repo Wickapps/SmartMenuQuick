@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Copyright (C) 2019 Mark Wickham
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~  http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:minWidth="500dip"
+        android:background="@drawable/border_grey_tight_inner"
+        android:padding="5dip">
+
+        <LinearLayout
+            android:id="@+id/llBootSettings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:padding="10dip"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/textBootTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Initial Settings"
+                android:textSize="28dip"
+                android:layout_gravity="center"
+                android:padding="10dip"
+                android:typeface="sans" />
+
+            <TextView
+                android:id="@+id/textBootIntro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/rgbeee"
+                android:textSize="15dip"
+                android:layout_gravity="center"
+                android:padding="10dip"
+                android:typeface="sans" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/labelServerIPtext"
+                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="Server IP"
+                    android:textSize="14sp"></TextView>
+
+                <EditText
+                    android:id="@+id/serverIP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:maxLength="30"
+                    android:inputType="textUri"
+                    android:text=""
+                    android:hint="server name"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"></EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/labelSMIDtext"
+                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="SmartMenu ID"
+                    android:textSize="14sp"></TextView>
+
+                <EditText
+                    android:id="@+id/SMID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:maxLength="18"
+                    android:inputType="text"
+                    android:text=""
+                    android:hint="12 alpha chars"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"></EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/labelstore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:text="Store"
+                    android:layout_marginLeft="10dp"
+                    android:paddingRight="5dp"
+                    android:gravity="left|center_vertical"
+                    android:textSize="14sp"></TextView>
+
+                <RadioGroup
+                    android:id="@+id/store"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2">
+
+                    <RadioButton
+                        android:id="@+id/siBut1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:paddingRight="15sp"
+                        android:checked="true"
+                        android:text="1" />
+
+                    <RadioButton
+                        android:id="@+id/siBut2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:paddingRight="15sp"
+                        android:text="2" />
+
+                    <RadioButton
+                        android:id="@+id/siBut3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:paddingRight="15sp"
+                        android:text="3" />
+
+                    <RadioButton
+                        android:id="@+id/siBut4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:paddingRight="15sp"
+                        android:text="4" />
+
+                    <RadioButton
+                        android:id="@+id/siBut5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:paddingRight="15sp"
+                        android:text="5" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/labelactivemenu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:gravity="left|center_vertical"
+                    android:text="Menu"
+                    android:layout_marginLeft="10dp"
+                    android:maxLines="1"
+                    android:paddingRight="5dp"
+                    android:textSize="14sp"></TextView>
+
+                <RadioGroup
+                    android:id="@+id/activemenu"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2">
+
+                    <RadioButton
+                        android:id="@+id/amiBut1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:textSize="14sp"
+                        android:paddingRight="15sp"
+                        android:text="1" />
+
+                    <RadioButton
+                        android:id="@+id/amiBut2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:layout_weight="1"
+                        android:textSize="14sp"
+                        android:paddingRight="15sp"
+                        android:text="2" />
+
+                    <RadioButton
+                        android:id="@+id/amiBut3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:layout_weight="1"
+                        android:textSize="14sp"
+                        android:paddingRight="15sp"
+                        android:text="3" />
+
+                    <RadioButton
+                        android:id="@+id/amiBut4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:layout_weight="1"
+                        android:textSize="14sp"
+                        android:paddingRight="15sp"
+                        android:text="4" />
+
+                    <RadioButton
+                        android:id="@+id/amiBut5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:layout_weight="1"
+                        android:textSize="14sp"
+                        android:paddingRight="15sp"
+                        android:text="5" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/butContinue"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Continue"
+                android:visibility="visible"
+                android:textColor="@color/rgbfff"
+                android:textStyle="normal"
+                android:textSize="20dip"
+                android:layout_marginTop="30dip"
+                android:enabled="true"
+                android:gravity="left"></Button>
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Copyright (C) 2019 Mark Wickham
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~  http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  -->
+
+<resources>
+
+    <string name="app_name">TakeOut</string>
+
+    <string name="tab1name">开始</string>
+    <string name="tab2name">菜单</string>
+    <string name="tab3name">订单</string>
+    <string name="tab4name">地图</string>
+    <string name="tab5name">图片</string>
+    <string name="tab6name">Lilys</string>
+
+    <string name="blankStr"></string>
+
+    <string name="welcomeHeader">欢迎</string>
+
+    <string name="msg_about_developer">开发者</string>
+    <string name="msg_about_developer_value">Mark Wickham</string>
+    <string name="msg_about_contact">联系</string>
+    <string name="msg_about_contact_value">comment@lilysbeijing.com</string>
+    <string name="msg_about_version_name">版本名称</string>
+    <string name="msg_about_app_name">软件名称</string>
+    <string name="msg_about_version_code">版本的代码</string>
+    <string name="msg_about_feedback">反馈</string>
+    <string name="msg_about_filesource">文件源</string>
+    <string name="msg_about_cloudIP">公共云存储</string>
+    <string name="msg_about_localIP">私人云存储</string>
+    <string name="msg_about_serverIP">服务器 IP</string>
+    <string name="msg_about_storemenuid">门店/菜单 ID</string>
+    <string name="msg_about_smartmenuid">SmartMenu ID</string>
+    <string name="msg_about_menuver">菜单版本</string>
+    <string name="msg_about_deviceid">驱动 ID</string>
+    <string name="msg_about_ticketnum">订单编号</string>
+    <string name="msg_about_wifistatus">Wifi 状态</string>
+    <string name="msg_about_mode">模式</string>
+
+    <string name="msg_main_menu_about">关于</string>
+    <string name="msg_main_menu_feedback">反馈意见</string>
+    <string name="msg_main_menu_exit">退出</string>
+    <string name="msg_main_menu_info">信息</string>
+    <string name="msg_main_menu_pref">设置</string>
+    <string name="msg_main_menu_share">金额</string>
+    <string name="msg_main_menu_comment">评论</string>
+    <string name="msg_main_menu_last">最后订购</string>
+
+    <string name="msg_crash_text">\n\n系统出现故障. \n\n\n\nSmartMenu 将会停止运行.\n\n\n\n 请重启软件.\n\n</string>
+    <string name="msg_crash_title">系统故障</string>
+
+    <string name="msg_password">密码</string>
+    <string name="msg_modify_item">更改订单项目</string>
+    <string name="msg_saletype_choose">Choose Sale Type</string>
+    <string name="msg_no_tickets">\n\n\n 无订单可用\n\n\n</string>
+    <string name="msg_no_ticket_selected">没有选择订单</string>
+    <string name="msg_operation_not_allowed">\n\n\n不允许操作\n\n\n</string>
+
+    <string name="feedback_title">反馈意见</string>
+    <string name="feedback_text">感谢您提交您的宝贵意见...</string>
+    <string name="feedback_msg">我们很高兴收到您的宝贵意见。</string>
+    <string name="feedback_back">返回</string>
+    <string name="feedback_send">发送</string>
+    <string name="feedback_info">信息</string>
+
+    <string name="rating_msg">评价这个菜 !</string>
+    <string name="rating_acomment">添加评论:</string>
+    <string name="rating_vcomment">食物意见</string>
+    <string name="rating_rscomment">评级</string>
+    <string name="rating_commenttitle">菜评论</string>
+
+    <string name="newdish_title">新菜建议</string>
+    <string name="newdish_text">感谢您提交您的新菜建议...</string>
+
+    <string name="search_keyword_title">搜索词</string>
+
+    <string name="tab3_sending_title">发送</string>
+    <string name="tab3_sending">正在发送您的订单......</string>
+    <string name="tab3_sending_p1">正在发送您的订单 ...</string>
+    <string name="tab3_sending_p23">正在发送您的订单 ......</string>
+    <string name="tab3_confirm_order">确认订单</string>
+    <string name="tab3_confirm_order_text">现在您的订单将被发送。 \n</string>
+
+    <string name="tab3_empty_title">订单空</string>
+    <string name="tab3_empty_text">请从菜单中添加菜类订单</string>
+    <string name="tab3_unprinted_title">订单未能成功打印</string>
+    <string name="tab3_unprinted_text">关闭桌台之前请选择打印或删除项目</string>
+    <string name="tab3_opentabs_title">收银开放门票</string>
+    <string name="tab3_opentabs_text">清除所有打开的门票，然后再继续</string>
+
+    <string name="tab3_notempty_title">为了不空</string>
+    <string name="tab3_notempty_text">您的订单包含的项目。开始一个新的秩序将删除所有现有的项目。</string>
+
+    <string name="tab3_settings_title">超时设置</string>
+    <string name="tab3_settings_text">请提供您的姓名，电话号码和送货地址，在设置</string>
+
+    <string name="tab3_update_item_title">更新项目</string>
+    <string name="tab3_update_item_text">选择订单菜类是： \n </string>
+
+    <string name="tab3_choose_table_title">选择桌号：</string>
+    <string name="tab3_choose_table_text">为您的订单，请选择你的桌号。</string>
+
+    <string name="tab1_table">选择桌号</string>
+    <string name="tab1_gotomenu">菜单</string>
+
+    <string name="tab3_contains_items_title">订单包含的菜类</string>
+    <string name="tab3_contains_items_text">您的订单包含的菜类。退出将删除订单</string>
+    <string name="tab3_contains_items_clear">您的订单中包含项目。结算将删除所有现有项目。要删除单个项目时，在订单列表中单击该项目。</string>
+
+    <string name="special_ins_title">特别指示</string>
+    <string name="special_ins_custom">特别指示</string>
+    <string name="special_string">特别指示: </string>
+    <string name="special_ins_text1">输入你的菜特别要求： \n </string>
+
+    <string name="qty_title">数量</string>
+
+    <string name="added_to">加入订单： </string>
+
+    <string name="tab2_si_cancel">取消</string>
+    <string name="tab2_si_save">保存</string>
+    <string name="tab2_list">菜单</string>
+    <string name="tab2_pics">图片</string>
+
+    <string name="ordersent_t1">您的订单已发送</string>
+    <string name="ordersent_t2">感谢使用莉莉的 SmartMenu。 您的食品将很快抵达。如继续点菜，请启动一个新菜单。</string>
+    <string name="ordersent_new">新菜单</string>
+    <string name="ordersent_exit">退出</string>
+
+    <string name="tabinfo_locations">我们的位置</string>
+    <string name="tabinfo_welcome">欢迎消息</string>
+    <string name="tabinfo_feedback">反馈意见</string>
+    <string name="tabinfo_about">关于 SmartMenu</string>
+    <string name="tabinfo_vote">投票的最爱</string>
+    <string name="tabinfo_discuss">讨论</string>
+
+    <string name="tab3_cancel">取消</string>
+    <string name="tab3_confirm">请确认</string>
+    <string name="tab3_continue">继续</string>
+    <string name="tab3_back">返回</string>
+    <string name="tab3_addtoorder">包括这个项目</string>
+    <string name="tab3_exit">退出</string>
+    <string name="tab3_info">信息</string>
+    <string name="tab3_delete">删除</string>
+    <string name="tab3_qty">数量</string>
+    <string name="tab3_settings">设置</string>
+    <string name="tab3_send">发送订单</string>
+    <string name="tab3_save">保存</string>
+    <string name="tab3_new">新</string>
+    <string name="tab3_close">关闭</string>
+    <string name="tab3_resend">重发</string>
+    <string name="tab3_update">更新</string>
+    <string name="tab3_clear">全部删除</string>
+
+    <string name="tab3_cash">现金</string>
+    <string name="tab3_credit">信用</string>
+    <string name="tab3_tab">项目</string>
+    <string name="tab3_open">打开</string>
+    <string name="tab3_pay">付</string>
+    <string name="tab3_auto">自动</string>
+
+    <string name="tab3_thank">谢谢您！\n\n 您的订单已发送。 \n\n 您的食品将很快抵达。</string>
+    <string name="tab3_select_qty">选择数量</string>
+
+    <string name="tab3_pos_err_1">对不起，您的订单可能不会被发送。</string>
+    <string name="tab3_pos_err_2">请致电我们的工作人员，对于您的订单。我们深表歉意。</string>
+
+    <string name="tab3_rmb">RMB</string>
+    <string name="tab3_rmb0">0 RMB</string>
+
+    <string name="localfiles"><u>当地文件</u></string>
+    <string name="settings">设置</string>
+    <string name="connections">连接状态</string>
+    <string name="cacheDeleted">本地图片将被删除</string>
+    <string name="cloudUpdated">云客户端已更新</string>
+    <string name="cacheReloaded">本地文件已重置</string>
+    <string name="cacheNotReloaded">本地文件无法被重置</string>
+
+    <string name="daily">特价优惠</string>
+
+    <string name="action_view">布局</string>
+    <string name="action_category">食物种类</string>
+
+    <string name="view_list">单子</string>
+    <string name="view_gall">单大图</string>
+    <string name="view_grid">片小图</string>
+
+    <string name="totalstring">总: RMB</string>
+
+    <string name="login_title">现金注册登录</string>
+    <string name="login_float">现金金额</string>
+    <string name="login_start">开始</string>
+    <string name="login_person_name">请选择一个名称</string>
+    <string name="login_select_name">请选择一个名称</string>
+    <string name="login_new_user">添加新用户</string>
+    <string name="login_save">保存</string>
+
+    <string name="login_new_topic">添加一个新主题</string>
+    <string name="login_delete_title">删除项目</string>
+    <string name="login_delete_text">将会删除已选选项.</string>
+
+    <string name="table_select_from_name">原表</string>
+    <string name="table_select_to_name">新的表</string>
+    <string name="table_from_title">选择您要离开餐桌</string>
+    <string name="table_to_title">选择新的表</string>
+    <string name="table_move_but">更新</string>
+    <string name="table_clear_title">请选择桌号进行删除</string>
+    <string name="table_select_clear_name">原表</string>
+    <string name="table_clear_but">全部删除</string>
+    <string name="reload_date">达特</string>
+
+    <string name="boot_continue">继续</string>
+    <string name="boot_textBootTitle">开始设置</string>
+    <string name="boot_textBootIntro">欢迎使用SmartMenu，请进入初始设置. 你不需要进行设置.设置将会生效.</string>
+
+    <string name="register_reg_sum">收银摘要</string>
+    <string name="register_login_time">登录时间</string>
+    <string name="register_cur_time">当前时间</string>
+    <string name="register_server_name">工作人员名</string>
+    <string name="register_reg_float">收银台前</string>
+    <string name="register_reg_cash">现金总</string>
+    <string name="register_reg_credit">信贷总量</string>
+    <string name="register_reg_other">其他收入</string>
+    <string name="register_reg_cashtotal">现金收入</string>
+    <string name="register_reg_salestotal">总收入</string>
+    <string name="register_reg_payouttotal">派息</string>
+    <string name="register_orders_sent">订单发</string>
+
+    <string name="register_payout">派息</string>
+    <string name="register_payout_desc">进入派息细节</string>
+    <string name="register_pay_amount">派息金额</string>
+    <string name="register_pay_desc">支付说明</string>
+
+    <string name="register_print_sum">打印摘要</string>
+    <string name="register_open_drawer">打开钱箱</string>
+    <string name="register_logout">注销</string>
+
+</resources>

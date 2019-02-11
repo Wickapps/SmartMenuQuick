@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Copyright (C) 2019 Mark Wickham
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~  http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llQInfo"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@drawable/border_grey_tight"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_marginTop="20dip"
+        android:layout_marginBottom="20dip"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/regSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Unsent Orders"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:padding="8dip"
+            android:typeface="sans" />
+
+        <TextView
+            android:id="@+id/QueueText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dip"
+            android:layout_marginRight="30dip"
+            android:textSize="17dip"
+            android:typeface="sans"
+            android:textStyle="bold"
+            android:text="Unsent orders appear in the List below."
+            android:gravity="center"
+            android:layout_gravity="center"></TextView>
+
+        <ImageView
+            android:background="@drawable/tab_selected_bar_left_pur"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dip"
+            android:layout_marginBottom="15dip"
+            android:layout_marginLeft="80dip"
+            android:layout_marginRight="80dip" />
+
+        <ListView
+            android:id="@+id/unsentItemList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="300dp"
+            android:minHeight="300dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:typeface="sans"
+            android:scrollbars="vertical"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:layout_gravity="center" />
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:weightSum="4"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_gravity="center">
+
+            <Button
+                android:id="@+id/butSndAll"
+                android:layout_height="70dip"
+                android:layout_width="0dip"
+                android:textSize="20sp"
+                android:textStyle="normal"
+                android:maxLines="1"
+                android:minLines="1"
+                android:paddingLeft="10.0dip"
+                android:paddingRight="2.0dip"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:text="Send All Items"
+                android:layout_gravity="center"></Button>
+
+            <Button
+                android:id="@+id/butDelAll"
+                android:layout_height="70dip"
+                android:layout_width="0dip"
+                android:textSize="20sp"
+                android:textStyle="normal"
+                android:maxLines="1"
+                android:minLines="1"
+                android:paddingLeft="10.0dip"
+                android:paddingRight="2.0dip"
+                android:layout_weight="1.0"
+                android:visibility="gone"
+                android:gravity="center"
+                android:text="Delete All Items"
+                android:layout_gravity="center"></Button>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

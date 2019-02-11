@@ -210,9 +210,7 @@ public class LoginActivity extends Activity {
                     String sendserver = "3," + Utils.GetDateTime() + "," + Global.ServerName;
                     activityLogger(sendserver);
 
-                    // set below flag in the PlaceOrder activity onCreate
-                    //Global.LoggedIn = true;
-                    Intent kintent = new Intent(getApplicationContext(), TakeOut.class);
+                    Intent kintent = new Intent(getApplicationContext(), QuickActivity.class);
                     kintent.setFlags((Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));
                     startActivity(kintent);
                 }
@@ -351,7 +349,7 @@ public class LoginActivity extends Activity {
                                 String sendserver = "3," + Utils.GetDateTime() + "," + Global.ServerName;
                                 activityLogger(sendserver);
                                 finish();
-                                Intent kintent = new Intent(getApplicationContext(), TakeOut.class);
+                                Intent kintent = new Intent(getApplicationContext(), QuickActivity.class);
                                 kintent.setFlags((Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP));
                                 startActivity(kintent);
                                 break;
@@ -412,7 +410,7 @@ public class LoginActivity extends Activity {
         public void onReceive(Context context, Intent intent) {
             infoWifi = "Checking";
             SupplicantState supState;
-            WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+            WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             WifiInfo wifiInfo = wifiManager.getConnectionInfo();
             supState = wifiInfo.getSupplicantState();
             infoWifi = "" + supState;
@@ -467,13 +465,13 @@ public class LoginActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         SubMenu subMenu0 = menu.addSubMenu(0, 0, menu.NONE, "Tools");
-        subMenu0.setIcon(R.drawable.ic_menu_preferences);
+        subMenu0.setIcon(android.R.drawable.ic_menu_preferences);
         subMenu0.add(0, 12, menu.NONE, "Settings");
         subMenu0.add(0, 13, menu.NONE, "Open Cash Drawer");
         subMenu0.add(0, 16, menu.NONE, "Staff Management");
         subMenu0.add(0, 17, menu.NONE, "Broker Topic Management");
         MenuItem subMenu0Item = subMenu0.getItem();
-        subMenu0Item.setIcon(R.drawable.ic_menu_preferences);
+        subMenu0Item.setIcon(android.R.drawable.ic_menu_preferences);
         subMenu0Item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         menu.add(0, 1, menu.NONE, "Exit");
@@ -782,8 +780,7 @@ public class LoginActivity extends Activity {
                     String postURL = "https://" + Global.ServerIP + Global.PosSaveActivityURL;
                     Utils.SendMultipartAdhoc(postURL,
                             sendServer,
-                            Global.SMID,
-                            Global.StoreID);
+                            Global.SMID);
                 } else {
                 }
             }

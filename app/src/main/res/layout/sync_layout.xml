@@ -1,0 +1,1671 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~  Copyright (C) 2019 Mark Wickham
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~  http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/rgb222"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:id="@+id/ScrollViewSync"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:id="@+id/topTopppp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center|top"
+            android:gravity="center|top"
+            android:orientation="horizontal">
+
+            <!-- Left First Column -->
+
+            <LinearLayout
+                android:id="@+id/hmmmmLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dip"
+                android:layout_marginRight="4dip"
+                android:layout_marginTop="20dip"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/llVVV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_grey_tight_inner"
+                    android:padding="0dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/headerStatus"
+                        android:layout_width="fill_parent"
+                        android:gravity="right"
+                        android:layout_height="wrap_content"
+                        android:text="Status"
+                        android:paddingRight="10dp"
+                        android:layout_marginLeft="0dp"
+                        android:textColor="@color/black"
+                        android:background="@color/white"
+                        android:layout_marginRight="0dp"
+                        android:textSize="10sp"></TextView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:paddingTop="10dp"
+                        android:paddingRight="6dip"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/label0a"
+                            android:layout_width="100dip"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:gravity="right"
+                            android:text="Wi-Fi"
+                            android:textSize="14sp"></TextView>
+
+                        <ImageView
+                            android:id="@+id/lit0a"
+                            android:background="@drawable/presence_invisible"
+                            android:layout_marginLeft="10dp"
+                            android:visibility="visible"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:paddingRight="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:paddingRight="6dip"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelPOSservice"
+                            android:layout_width="100dip"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:gravity="right"
+                            android:text="POS Service"
+                            android:textSize="14sp"
+                            android:visibility="visible"></TextView>
+
+                        <ImageView
+                            android:id="@+id/litPOSService"
+                            android:background="@drawable/presence_invisible"
+                            android:layout_marginLeft="10dp"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="10dp"
+                            android:visibility="visible" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:paddingRight="6dip"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/label1"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:gravity="right"
+                            android:text="Server IP"
+                            android:textSize="14sp"></TextView>
+
+                        <ImageView
+                            android:id="@+id/lit1aServer"
+                            android:background="@drawable/presence_invisible"
+                            android:layout_marginLeft="10dp"
+                            android:visibility="visible"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_marginTop="10dip"
+                        android:paddingRight="6dip"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/label2"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:gravity="right"
+                            android:text="Printer 1"
+                            android:textSize="14sp"></TextView>
+
+                        <ImageView
+                            android:id="@+id/lit2a"
+                            android:background="@drawable/presence_invisible"
+                            android:layout_marginLeft="10dp"
+                            android:visibility="visible"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:paddingRight="6dip"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/label3"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:gravity="right"
+                            android:text="Printer 2"
+                            android:textSize="14sp"></TextView>
+
+                        <ImageView
+                            android:id="@+id/lit3a"
+                            android:background="@drawable/presence_invisible"
+                            android:layout_marginLeft="10dp"
+                            android:visibility="visible"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:paddingRight="6dip"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/label1d"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:gravity="right"
+                            android:text="Printer 3"
+                            android:textSize="14sp"></TextView>
+
+                        <ImageView
+                            android:id="@+id/lit4a"
+                            android:background="@drawable/presence_invisible"
+                            android:layout_marginLeft="10dp"
+                            android:visibility="visible"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llMaster"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_marginTop="10dip"
+                        android:layout_marginBottom="10dip"
+                        android:paddingRight="6dip"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelMaster"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:gravity="right"
+                            android:text="POS IP"
+                            android:textSize="14sp"></TextView>
+
+                        <ImageView
+                            android:id="@+id/litMaster"
+                            android:background="@drawable/presence_invisible"
+                            android:layout_marginLeft="10dp"
+                            android:visibility="visible"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llWWW"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dip"
+                    android:background="@drawable/border_grey_tight_inner"
+                    android:padding="10dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/llc"
+                        android:layout_height="wrap_content"
+                        android:layout_width="fill_parent"
+                        android:weightSum="4"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/butDeleteP"
+                            android:layout_height="wrap_content"
+                            android:layout_width="0dip"
+                            android:layout_weight="2.0"
+                            android:text="Delete Pictures"
+                            android:textSize="14sp"
+                            android:textStyle="normal"
+                            android:visibility="visible"
+                            android:layout_gravity="center"
+                            android:gravity="center"></Button>
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/butReload"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_weight="3.0"
+                        android:text="Reload Files"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:textSize="14sp"
+                        android:textStyle="normal"
+                        android:visibility="visible"
+                        android:layout_gravity="center"
+                        android:gravity="center"></Button>
+
+                    <TextView
+                        android:id="@+id/textLoad"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="5dip"
+                        android:text=""
+                        android:singleLine="true"
+                        android:textSize="10sp"
+                        android:layout_gravity="center"
+                        android:typeface="sans"
+                        android:visibility="visible"
+                        android:textColor="@color/white" />
+
+                    <Button
+                        android:id="@+id/butStartService"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="Start Service"
+                        android:textSize="14sp"
+                        android:textStyle="normal"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:visibility="gone"
+                        android:layout_gravity="center"
+                        android:gravity="center"></Button>
+
+                    <Button
+                        android:id="@+id/butStopService"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="Stop Service"
+                        android:textSize="14sp"
+                        android:textStyle="normal"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:visibility="gone"
+                        android:layout_gravity="center"
+                        android:gravity="center"></Button>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll1212"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dip"
+                    android:background="@drawable/border_grey_tight_inner"
+                    android:padding="10dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/llc2"
+                        android:layout_height="wrap_content"
+                        android:layout_width="fill_parent"
+                        android:weightSum="2"
+                        android:layout_marginTop="0dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/butSave"
+                            android:layout_height="wrap_content"
+                            android:layout_width="0dip"
+                            android:layout_weight="2.0"
+                            android:text="Save Settings"
+                            android:textSize="14dp"
+                            android:textStyle="normal"
+                            android:visibility="visible"
+                            android:layout_gravity="center"
+                            android:gravity="center"></Button>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Middle Column -->
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="5dip"
+                android:orientation="vertical">
+                <!--
+                <TextView
+                    android:id="@+id/welcomeHeader"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="14dip"
+                    android:layout_marginRight="14dip"
+                    android:layout_marginTop="20dip"
+                    android:textSize="14dip"
+                    android:typeface="sans"
+                    android:textStyle="bold"
+                    android:text="SmartMenu Settings"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:layout_gravity="center">
+                </TextView> -->
+                <TextView
+                    android:id="@+id/AboutAppName"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/white"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
+                    android:layout_marginTop="10dip"
+                    android:gravity="center"
+                    android:layout_gravity="center"></TextView>
+
+                <TextView
+                    android:id="@+id/AboutVersion"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/white"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
+                    android:layout_marginTop="10dip"
+                    android:gravity="center"
+                    android:layout_gravity="center"></TextView>
+
+                <TextView
+                    android:id="@+id/AboutMode"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="10dip"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
+                    android:visibility="gone"
+                    android:gravity="center"
+                    android:layout_gravity="center"></TextView>
+
+                <TextView
+                    android:id="@+id/AboutFileSource"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="10dip"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
+                    android:gravity="center"
+                    android:layout_gravity="center"></TextView>
+
+                <TextView
+                    android:id="@+id/AboutServerIP"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="10dip"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
+                    android:gravity="center"
+                    android:layout_gravity="center"></TextView>
+
+                <TextView
+                    android:id="@+id/AboutSMID"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="10dip"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
+                    android:gravity="center"
+                    android:layout_gravity="center"></TextView>
+
+                <TextView
+                    android:id="@+id/AboutMenuVersion"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="10dip"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
+                    android:gravity="center"
+                    android:layout_gravity="center"></TextView>
+
+                <TextView
+                    android:id="@+id/AboutDeviceId"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="10dip"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
+                    android:gravity="center"
+                    android:layout_gravity="center"></TextView>
+            </LinearLayout>
+
+
+            <!-- Third Column -->
+
+            <LinearLayout
+                android:id="@+id/hmmmmRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dip"
+                android:layout_marginLeft="4dip"
+                android:layout_marginRight="4dip"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/llXXX"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_grey_tight_inner"
+                    android:padding="0dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/header31"
+                        android:layout_width="fill_parent"
+                        android:gravity="right"
+                        android:layout_height="wrap_content"
+                        android:text="General Settings"
+                        android:paddingRight="10dp"
+                        android:layout_marginLeft="0dp"
+                        android:textColor="@color/black"
+                        android:background="@color/white"
+                        android:layout_marginRight="0dp"
+                        android:textSize="10sp"></TextView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:gravity="left|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelstore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:text="Store"
+                            android:layout_marginLeft="10dp"
+                            android:paddingRight="5dp"
+                            android:gravity="left|center_vertical"
+                            android:textSize="14sp"></TextView>
+
+                        <RadioGroup
+                            android:id="@+id/store"
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:weightSum="2">
+
+                            <RadioButton
+                                android:id="@+id/siBut1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="@color/white"
+                                android:textSize="14sp"
+                                android:text="1" />
+
+                            <RadioButton
+                                android:id="@+id/siBut2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="@color/white"
+                                android:textSize="14sp"
+                                android:text="2" />
+
+                            <RadioButton
+                                android:id="@+id/siBut3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="@color/white"
+                                android:textSize="14sp"
+                                android:text="3" />
+
+                            <RadioButton
+                                android:id="@+id/siBut4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="@color/white"
+                                android:textSize="14sp"
+                                android:enabled="false"
+                                android:text="4" />
+
+                            <RadioButton
+                                android:id="@+id/siBut5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="@color/white"
+                                android:textSize="14sp"
+                                android:text="5" />
+                        </RadioGroup>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelactivemenu"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:gravity="left|center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:text="Menu"
+                            android:maxLines="1"
+                            android:paddingRight="5dp"
+                            android:textSize="14sp"></TextView>
+
+                        <RadioGroup
+                            android:id="@+id/activemenu"
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:weightSum="2">
+
+                            <RadioButton
+                                android:id="@+id/amiBut1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:layout_weight="1"
+                                android:textSize="14sp"
+                                android:text="1" />
+
+                            <RadioButton
+                                android:id="@+id/amiBut2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:layout_weight="1"
+                                android:textSize="14sp"
+                                android:text="2" />
+
+                            <RadioButton
+                                android:id="@+id/amiBut3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:layout_weight="1"
+                                android:textSize="14sp"
+                                android:text="3" />
+
+                            <RadioButton
+                                android:id="@+id/amiBut4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:layout_weight="1"
+                                android:textSize="14sp"
+                                android:enabled="false"
+                                android:text="4" />
+
+                            <RadioButton
+                                android:id="@+id/amiBut5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:layout_weight="1"
+                                android:textSize="14sp"
+                                android:text="5" />
+                        </RadioGroup>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:gravity="left|center_vertical"
+                        android:visibility="gone"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelct"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:text="Cloud Type"
+                            android:paddingRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:gravity="left|center_vertical"
+                            android:textSize="14sp"></TextView>
+
+                        <RadioGroup
+                            android:id="@+id/ctRG"
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:weightSum="2">
+
+                            <RadioButton
+                                android:id="@+id/ctBut1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="@color/white"
+                                android:textSize="14sp"
+                                android:text="Private"
+                                android:visibility="gone" />
+
+                            <RadioButton
+                                android:id="@+id/ctBut2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="@color/white"
+                                android:textSize="14sp"
+                                android:text="Public" />
+                        </RadioGroup>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:gravity="left|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/label15"
+                            android:layout_width="wrap_content"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:text="Auto Menu Reload"
+                            android:textColor="@color/white"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="14sp"></TextView>
+
+                        <CheckBox
+                            android:id="@+id/autoMenuReload"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"></CheckBox>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:gravity="left|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelSOMtext"
+                            android:layout_width="wrap_content"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="Send Order Mode [1-2]"
+                            android:textSize="14sp"></TextView>
+
+                        <EditText
+                            android:id="@+id/sendOrderMode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:lines="1"
+                            android:singleLine="true"
+                            android:maxLength="20"
+                            android:inputType="number"
+                            android:text=""
+                            android:layout_gravity="center"
+                            android:layout_marginRight="10dp"
+                            android:gravity="center"></EditText>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:gravity="left|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelprt"
+                            android:layout_width="wrap_content"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:text="Print Round Trip"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="14sp"></TextView>
+
+                        <CheckBox
+                            android:id="@+id/printRoundTrip"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"></CheckBox>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:visibility="gone"
+                        android:gravity="left|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelapdd"
+                            android:layout_width="wrap_content"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:text="Allow Printed Dish Delete"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="14sp"></TextView>
+
+                        <CheckBox
+                            android:id="@+id/printedAllowDelete"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"></CheckBox>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:visibility="gone"
+                        android:gravity="left|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelapoc"
+                            android:layout_width="wrap_content"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:text="Allow Printed Order Clear"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="14sp"></TextView>
+
+                        <CheckBox
+                            android:id="@+id/printedAllowClear"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"></CheckBox>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:gravity="left|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/label20"
+                            android:layout_width="wrap_content"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:text="Printers 1/2/3 Enabled"
+                            android:textColor="@color/white"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="14sp"></TextView>
+
+                        <CheckBox
+                            android:id="@+id/pos1enable"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"></CheckBox>
+
+                        <CheckBox
+                            android:id="@+id/pos2enable"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"></CheckBox>
+
+                        <CheckBox
+                            android:id="@+id/pos3enable"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"></CheckBox>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/header32"
+                        android:layout_width="fill_parent"
+                        android:gravity="right"
+                        android:layout_height="wrap_content"
+                        android:text="IP Settings"
+                        android:paddingRight="10dp"
+                        android:layout_marginLeft="0dp"
+                        android:textColor="@color/black"
+                        android:background="@color/white"
+                        android:layout_marginRight="0dp"
+                        android:textSize="10sp"></TextView>
+
+                    <!-- Dont show this on the setting, they need to CLEAR DATA and reboot to change the Server IP -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:gravity="left|center_vertical"
+                        android:visibility="gone"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelServerIPtext"
+                            android:layout_width="wrap_content"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="Server IP"
+                            android:textSize="14sp"></TextView>
+
+                        <EditText
+                            android:id="@+id/serverIP"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:lines="1"
+                            android:singleLine="true"
+                            android:maxLength="30"
+                            android:inputType="textUri"
+                            android:text=""
+                            android:layout_gravity="center"
+                            android:layout_marginRight="10dp"
+                            android:gravity="center"></EditText>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:gravity="left|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelipMtext"
+                            android:layout_width="wrap_content"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="POS IP"
+                            android:textSize="14sp"></TextView>
+
+                        <EditText
+                            android:id="@+id/ipmd"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:lines="1"
+                            android:singleLine="true"
+                            android:maxLength="20"
+                            android:inputType="textUri"
+                            android:text="192.168.1.71"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="10dp"
+                            android:gravity="center"></EditText>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:gravity="left|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelip1text"
+                            android:layout_width="wrap_content"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:text="Printer 1 IP"
+                            android:textColor="@color/white"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="14sp"></TextView>
+
+                        <EditText
+                            android:id="@+id/ip1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:lines="1"
+                            android:singleLine="true"
+                            android:maxLength="20"
+                            android:inputType="textUri"
+                            android:text="192.168.1.30"
+                            android:layout_gravity="center"
+                            android:gravity="center"></EditText>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:gravity="left|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelip2text"
+                            android:layout_width="wrap_content"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:text="Printer 2 IP"
+                            android:textColor="@color/white"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="14sp"></TextView>
+
+                        <EditText
+                            android:id="@+id/ip2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:lines="1"
+                            android:singleLine="true"
+                            android:maxLength="20"
+                            android:inputType="textUri"
+                            android:text="192.168.1.31"
+                            android:layout_gravity="center"
+                            android:gravity="center"></EditText>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:gravity="left|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelip3text"
+                            android:layout_width="wrap_content"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:text="Printer 3 IP"
+                            android:textColor="@color/white"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="14sp"></TextView>
+
+                        <EditText
+                            android:id="@+id/ip3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:lines="1"
+                            android:singleLine="true"
+                            android:maxLength="20"
+                            android:inputType="textUri"
+                            android:text="192.168.1.32"
+                            android:layout_gravity="center"
+                            android:gravity="center"></EditText>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/header33"
+                        android:layout_width="fill_parent"
+                        android:gravity="right"
+                        android:layout_height="wrap_content"
+                        android:text="Printer 1"
+                        android:paddingRight="10dp"
+                        android:layout_marginLeft="0dp"
+                        android:textColor="@color/black"
+                        android:background="@color/white"
+                        android:layout_marginRight="0dp"
+                        android:textSize="10sp"></TextView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:gravity="left|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelpt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:text="Printer Type"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:gravity="left|center_vertical"
+                            android:textSize="14sp"></TextView>
+
+                        <RadioGroup
+                            android:id="@+id/pt"
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:weightSum="2">
+
+                            <RadioButton
+                                android:id="@+id/p1ptBut1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="@color/white"
+                                android:textSize="14sp"
+                                android:text="Epson" />
+
+                            <RadioButton
+                                android:id="@+id/p1ptBut2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textSize="14sp"
+                                android:text="GPrinter" />
+                        </RadioGroup>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:gravity="left|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/label145"
+                            android:layout_width="wrap_content"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:text="Print Logo"
+                            android:paddingLeft="10dp"
+                            android:textColor="@color/white"
+                            android:layout_marginRight="10dp"
+                            android:textSize="14sp"></TextView>
+
+                        <CheckBox
+                            android:id="@+id/pos1logo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"></CheckBox>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:gravity="left|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelpdid"
+                            android:layout_width="wrap_content"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:text="Print Dish Seq #'s"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:textSize="14sp"></TextView>
+
+                        <CheckBox
+                            android:id="@+id/printDishID"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"></CheckBox>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:gravity="left|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelP1C"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:text="Copies [1-3]"
+                            android:layout_marginLeft="10dp"
+                            android:textColor="@color/white"
+                            android:layout_marginRight="10dp"
+                            android:textSize="14sp"></TextView>
+
+                        <EditText
+                            android:id="@+id/etP1C"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:lines="1"
+                            android:singleLine="true"
+                            android:maxLength="10"
+                            android:inputType="number"
+                            android:text=""
+                            android:layout_gravity="center"
+                            android:layout_marginRight="10dp"
+                            android:gravity="center"></EditText>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:gravity="left|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelp1pst"
+                            android:layout_width="wrap_content"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:text="Print Sent Time"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:textSize="14sp"></TextView>
+
+                        <CheckBox
+                            android:id="@+id/p1PrintSentTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"></CheckBox>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:gravity="left|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelAOD"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:text="Auto Open Drawer"
+                            android:layout_marginLeft="10dp"
+                            android:textColor="@color/white"
+                            android:layout_marginRight="10dp"
+                            android:textSize="14sp"></TextView>
+
+                        <CheckBox
+                            android:id="@+id/autoOpenDrawer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"></CheckBox>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/header34"
+                        android:layout_width="fill_parent"
+                        android:gravity="right"
+                        android:layout_height="wrap_content"
+                        android:text="Printer 2"
+                        android:paddingRight="10dp"
+                        android:layout_marginLeft="0dp"
+                        android:textColor="@color/black"
+                        android:background="@color/white"
+                        android:layout_marginRight="0dp"
+                        android:textSize="10sp"></TextView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:gravity="left|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/label2pt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:text="Printer Type"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:gravity="left|center_vertical"
+                            android:textSize="14sp"></TextView>
+
+                        <RadioGroup
+                            android:id="@+id/pt2"
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:weightSum="2">
+
+                            <RadioButton
+                                android:id="@+id/p2ptBut1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="@color/white"
+                                android:textSize="14sp"
+                                android:text="Epson" />
+
+                            <RadioButton
+                                android:id="@+id/p2ptBut2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textSize="14sp"
+                                android:text="GPrinter" />
+                        </RadioGroup>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:gravity="left|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelp221"
+                            android:layout_width="wrap_content"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:text="Kitchen Codes"
+                            android:layout_marginLeft="10dp"
+                            android:textColor="@color/white"
+                            android:layout_marginRight="10dp"
+                            android:textSize="14sp"></TextView>
+
+                        <CheckBox
+                            android:id="@+id/p2KitchenCodes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"></CheckBox>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:gravity="left|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelp2pst"
+                            android:layout_width="wrap_content"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:text="Print Sent Time"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:textSize="14sp"></TextView>
+
+                        <CheckBox
+                            android:id="@+id/p2PrintSentTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"></CheckBox>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:gravity="left|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelp2fcats"
+                            android:layout_width="wrap_content"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="Filter"
+                            android:textSize="14sp"></TextView>
+
+                        <Button
+                            android:id="@+id/butP2FilterCats"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:maxWidth="180dip"
+                            android:text=""
+                            android:textSize="14sp"
+                            android:drawableRight="@drawable/arrow_down"
+                            android:visibility="visible"
+                            android:textStyle="normal"
+                            android:paddingLeft="10.0dip"
+                            android:paddingRight="10.0dip"
+                            android:singleLine="true"
+                            android:enabled="true"
+                            android:layout_gravity="center_horizontal"></Button>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/headerp334"
+                        android:layout_width="fill_parent"
+                        android:gravity="right"
+                        android:layout_height="wrap_content"
+                        android:text="Printer 3"
+                        android:paddingRight="10dp"
+                        android:layout_marginLeft="0dp"
+                        android:textColor="@color/black"
+                        android:background="@color/white"
+                        android:layout_marginRight="0dp"
+                        android:textSize="10sp"></TextView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:gravity="left|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/label3pt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:text="Printer Type"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:gravity="left|center_vertical"
+                            android:textSize="14sp"></TextView>
+
+                        <RadioGroup
+                            android:id="@+id/pt3"
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:weightSum="2">
+
+                            <RadioButton
+                                android:id="@+id/p3ptBut1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="@color/white"
+                                android:textSize="14sp"
+                                android:text="Epson" />
+
+                            <RadioButton
+                                android:id="@+id/p3ptBut2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textSize="14sp"
+                                android:text="GPrinter" />
+                        </RadioGroup>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:gravity="left|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelp3kc"
+                            android:layout_width="wrap_content"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:text="Kitchen Codes"
+                            android:layout_marginLeft="10dp"
+                            android:textColor="@color/white"
+                            android:layout_marginRight="10dp"
+                            android:textSize="14sp"></TextView>
+
+                        <CheckBox
+                            android:id="@+id/p3KitchenCodes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"></CheckBox>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:gravity="left|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelp3pst"
+                            android:layout_width="wrap_content"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:text="Print Sent Time"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:textSize="14sp"></TextView>
+
+                        <CheckBox
+                            android:id="@+id/p3PrintSentTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"></CheckBox>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:gravity="left|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelp3fcats"
+                            android:layout_width="wrap_content"
+                            android:gravity="left"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="Filter"
+                            android:textSize="14sp"></TextView>
+
+                        <Button
+                            android:id="@+id/butP3FilterCats"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:maxWidth="180dip"
+                            android:text=""
+                            android:textSize="14sp"
+                            android:drawableRight="@drawable/arrow_down"
+                            android:visibility="visible"
+                            android:textStyle="normal"
+                            android:paddingLeft="10.0dip"
+                            android:paddingRight="10.0dip"
+                            android:singleLine="true"
+                            android:enabled="true"
+                            android:layout_gravity="center_horizontal"></Button>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/label10"
+                            android:layout_width="100dp"
+                            android:gravity="right"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:text="Start English"
+                            android:layout_marginRight="10dp"
+                            android:textSize="14sp"></TextView>
+
+                        <CheckBox
+                            android:id="@+id/checkEng"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"></CheckBox>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/label11"
+                            android:layout_width="100dp"
+                            android:gravity="right"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:text="Set Wallpaper"
+                            android:layout_marginRight="10dp"
+                            android:textSize="14dp"></TextView>
+
+                        <CheckBox
+                            android:id="@+id/checkPaper"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"></CheckBox>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/label12"
+                            android:layout_width="100dp"
+                            android:gravity="right"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:text="Check Wi-Fi"
+                            android:layout_marginRight="10dp"
+                            android:textSize="14dp"></TextView>
+
+                        <CheckBox
+                            android:id="@+id/checkWifi"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"></CheckBox>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/label13"
+                            android:layout_width="100dp"
+                            android:gravity="right"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:text="Show Pictures"
+                            android:layout_marginRight="10dp"
+                            android:textSize="14dp"></TextView>
+
+                        <CheckBox
+                            android:id="@+id/showPics"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"></CheckBox>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>
