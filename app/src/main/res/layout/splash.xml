@@ -19,7 +19,7 @@
     android:layout_width="fill_parent"
     android:orientation="vertical"
     android:layout_centerVertical="true"
-    android:background="@color/black"
+    android:background="@color/dark_greyless"
     android:layout_height="fill_parent"
     android:layout_gravity="center"
     android:gravity="center">
@@ -31,7 +31,7 @@
         android:orientation="vertical"
         android:layout_marginBottom="40dip"
         android:layout_gravity="center"
-        android:background="@drawable/smlogo"></LinearLayout>
+        android:background="@drawable/ic_launcher"></LinearLayout>
 
     <ProgressBar
         android:id="@android:id/progress"
@@ -46,11 +46,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="CONNECTING"
+        android:text="Connecting"
         android:textSize="16dip"
         android:layout_gravity="center"
         android:padding="10dip"
         android:typeface="sans"
-        android:textColor="@color/light_grey" />
+        android:textColor="@color/black" />
 
 </LinearLayout>
