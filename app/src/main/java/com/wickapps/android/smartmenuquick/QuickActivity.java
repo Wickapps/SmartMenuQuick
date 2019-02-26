@@ -124,7 +124,6 @@ import java.io.FileFilter;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -139,10 +138,13 @@ import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.net.ssl.HttpsURLConnection;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class QuickActivity extends Activity {
     private Button newButton, closeButton, clearButton, p1Button, p2Button, p3Button, ODButton;
@@ -327,12 +329,12 @@ public class QuickActivity extends Activity {
 
             // update the gridView
             gridview = (GridView) findViewById(R.id.gridView1);
-            gridAdapter = new GridAdapter(Quick.this, R.layout.array_list_item, dishArrayList);
+            gridAdapter = new GridAdapter(QuickActivity.this, R.layout.array_list_item, dishArrayList);
             gridview.setAdapter(gridAdapter);
 
             // update the ticketsView
             ticketview = (GridView) findViewById(R.id.gridViewTickets);
-            ticketAdapter = new TicketAdapter(Quick.this, R.layout.ticket_item, JSONTickets);
+            ticketAdapter = new TicketAdapter(QuickActivity.this, R.layout.ticket_item, JSONTickets);
             ticketview.setAdapter(ticketAdapter);
             ticketview.setSelection(currentTicketID);
 
@@ -341,7 +343,7 @@ public class QuickActivity extends Activity {
             setJSONOrderList(currentTicketID);
 
             listOrder = (ListView) findViewById(R.id.listOrder);
-            orderAdapter = new OrderAdapter(Quick.this, R.layout.list_item, JSONOrderList);
+            orderAdapter = new OrderAdapter(QuickActivity.this, R.layout.list_item, JSONOrderList);
             listOrder.setAdapter(orderAdapter);
 
             // set the headers TextView for the Order from the JSON
@@ -393,7 +395,7 @@ public class QuickActivity extends Activity {
                 //Toast.makeText(PlaceOrder.this, "\n\n\nNew Order Arrived\n\n\n", Toast.LENGTH_LONG).show();
                 LayoutInflater factory = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 final View textEntryView = factory.inflate(R.layout.new_order_dialog, null);
-                final CustomDialog customDialog = new CustomDialog(Quick.this);
+                final CustomDialog customDialog = new CustomDialog(QuickActivity.this);
                 customDialog.setContentView(textEntryView);
                 customDialog.show();
                 customDialog.setCancelable(true);
@@ -413,7 +415,7 @@ public class QuickActivity extends Activity {
         public void run() {
             LayoutInflater factory = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             final View textEntryView = factory.inflate(R.layout.new_msg_dialog, null);
-            final CustomDialog customDialog = new CustomDialog(Quick.this);
+            final CustomDialog customDialog = new CustomDialog(QuickActivity.this);
             customDialog.setContentView(textEntryView);
             customDialog.show();
             customDialog.setCancelable(true);
@@ -427,7 +429,7 @@ public class QuickActivity extends Activity {
         public void run() {
             LayoutInflater factory = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             final View textEntryView = factory.inflate(R.layout.network_send_fail_dialog, null);
-            final CustomDialog customDialog = new CustomDialog(Quick.this);
+            final CustomDialog customDialog = new CustomDialog(QuickActivity.this);
             customDialog.setContentView(textEntryView);
             customDialog.show();
             customDialog.setCancelable(true);
@@ -439,7 +441,7 @@ public class QuickActivity extends Activity {
         public void run() {
             LayoutInflater factory = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             final View textEntryView = factory.inflate(R.layout.cant_close_dialog, null);
-            final CustomDialog customDialog = new CustomDialog(Quick.this);
+            final CustomDialog customDialog = new CustomDialog(QuickActivity.this);
             customDialog.setContentView(textEntryView);
             customDialog.show();
             customDialog.setCancelable(true);
@@ -499,14 +501,13 @@ public class QuickActivity extends Activity {
         }
     };
 
+
     @Override
     public void onPause() {
         Global.PausedOrder = true;
 
         this.unregisterReceiver(wifiStatusReceiver);
         this.unregisterReceiver(incomingCallReceiver);
-
-        SmartMenuService.actionDisconnect(getApplicationContext());
         this.unregisterReceiver(messageReceiver);
 
 
@@ -540,9 +541,6 @@ public class QuickActivity extends Activity {
         this.registerReceiver(messageReceiver, new IntentFilter(SmartMenuService.TICKET_BUMPED));
         this.registerReceiver(messageReceiver, new IntentFilter(SmartMenuService.NEW_ORDER));
         this.registerReceiver(messageReceiver, new IntentFilter(SmartMenuService.PRINT_STATUS));
-        this.registerReceiver(messageReceiver, new IntentFilter(SmartMenuService.MQTT_CONNECTION_STATUS));
-        this.registerReceiver(messageReceiver, new IntentFilter(SmartMenuService.MQTT_DELIVERY_COMPLETE));
-        SmartMenuService.actionReconnect(getApplicationContext());
 
         // read in the tickets
         for (int i = 0; i < MaxTickets; i++) {
@@ -598,11 +596,11 @@ public class QuickActivity extends Activity {
 
         setContentView(R.layout.placeorder);
 
-        txtSize0 = (Utils.getFontSize(Quick.this));
-        txtSize1 = (int) (Utils.getFontSize(Quick.this) / 1.2);
-        txtSize2 = (int) (Utils.getFontSize(Quick.this) / 1.4);
-        txtSize3 = (int) (Utils.getFontSize(Quick.this) / 1.1);
-        txtSize4 = (int) (Utils.getFontSize(Quick.this) * 1.2);
+        txtSize0 = (Utils.getFontSize(QuickActivity.this));
+        txtSize1 = (int) (Utils.getFontSize(QuickActivity.this) / 1.2);
+        txtSize2 = (int) (Utils.getFontSize(QuickActivity.this) / 1.4);
+        txtSize3 = (int) (Utils.getFontSize(QuickActivity.this) / 1.1);
+        txtSize4 = (int) (Utils.getFontSize(QuickActivity.this) * 1.2);
 
         // setup the button references
         setupButtons();
@@ -611,17 +609,18 @@ public class QuickActivity extends Activity {
         vfMenuTable = (ViewFlipper) findViewById(R.id.vfMenuTable);
         vfMenuTable.setDisplayedChild(1);
 
-        // grab the directory where orders and retrys will be stored
-        ordersDir = new File(android.os.Environment.getExternalStorageDirectory(), "SmartMenuOrders");
+        // grab the directory where orders, retrys and logs will be stored
+        ordersDir = new File(getFilesDir(), "SmartMenuOrders");
         if (!ordersDir.exists()) ordersDir.mkdirs();
-        retryDir = new File(android.os.Environment.getExternalStorageDirectory(), "SmartMenuRetry");
+        retryDir = new File(getFilesDir(), "SmartMenuRetry");
         if (!retryDir.exists()) retryDir.mkdirs();
-        logsDir = new File(android.os.Environment.getExternalStorageDirectory(), "SmartMenuLogs");
+        logsDir = getExternalFilesDir("SmartMenuLogs");
         if (!logsDir.exists()) logsDir.mkdirs();
 
+
         try {
-            mLog = new ConnectionLog();
-        } catch (IOException e) {
+            mLog = new ConnectionLog(this);
+        } catch (Exception e) {
         }
 
         // Using broadcast receiver instead of below
@@ -631,8 +630,8 @@ public class QuickActivity extends Activity {
 
         // Setup the ActionBar
         getActionBar().setDisplayShowTitleEnabled(true);
-        getActionBar().setSubtitle(Global.AppName);
-        getActionBar().setTitle(Global.CustomerName + " " + Global.StoreID);
+        getActionBar().setTitle(Global.AppNameA);
+        getActionBar().setSubtitle(Global.AppNameB);
         getActionBar().setDisplayUseLogoEnabled(false);
         getActionBar().setDisplayShowHomeEnabled(false);
 
@@ -682,12 +681,12 @@ public class QuickActivity extends Activity {
         }
 
         GridView gridview = (GridView) findViewById(R.id.gridView1);
-        gridAdapter = new GridAdapter(Quick.this, R.layout.array_list_item, dishArrayList);
+        gridAdapter = new GridAdapter(QuickActivity.this, R.layout.array_list_item, dishArrayList);
         gridview.setAdapter(gridAdapter);
 
         // update the ticketsView
         GridView ticketview = (GridView) findViewById(R.id.gridViewTickets);
-        ticketAdapter = new TicketAdapter(Quick.this, R.layout.ticket_item, JSONTickets);
+        ticketAdapter = new TicketAdapter(QuickActivity.this, R.layout.ticket_item, JSONTickets);
         ticketview.setAdapter(ticketAdapter);
 
         // set up for the Order List
@@ -699,7 +698,7 @@ public class QuickActivity extends Activity {
 
         listOrder = (ListView) findViewById(R.id.listOrder);
         listOrder.setItemsCanFocus(true);
-        orderAdapter = new OrderAdapter(Quick.this, R.layout.list_item, JSONOrderList);
+        orderAdapter = new OrderAdapter(QuickActivity.this, R.layout.list_item, JSONOrderList);
         listOrder.setAdapter(orderAdapter);
 
         listOrder.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
@@ -727,7 +726,7 @@ public class QuickActivity extends Activity {
                             }
                         }
                     } else {
-                        Toast.makeText(Quick.this, getString(R.string.msg_operation_not_allowed), Toast.LENGTH_LONG).show();
+                        Toast.makeText(QuickActivity.this, getString(R.string.msg_operation_not_allowed), Toast.LENGTH_LONG).show();
                     }
                     // Close CAB
                     mode.finish();
@@ -1028,7 +1027,7 @@ public class QuickActivity extends Activity {
                         tvcc.setTextColor(Color.parseColor(textColors[0]));
                         tvcc.setBackgroundColor(Color.parseColor(color));
                     } else {
-                        Toast.makeText(Quick.this, getString(R.string.msg_no_tickets), Toast.LENGTH_LONG).show();
+                        Toast.makeText(QuickActivity.this, getString(R.string.msg_no_tickets), Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     log("JSON newButton Ticket=" + currentTicketID + " e=" + e);
@@ -1042,7 +1041,7 @@ public class QuickActivity extends Activity {
         closeButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 if (JSONOrderList.isEmpty()) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(Quick.this).create();
+                    AlertDialog alertDialog = new AlertDialog.Builder(QuickActivity.this).create();
                     alertDialog.setTitle(getString(R.string.tab3_empty_title));
                     alertDialog.setMessage(getString(R.string.tab3_empty_text));
                     alertDialog.setButton(getString(R.string.tab3_back), new DialogInterface.OnClickListener() {
@@ -1052,7 +1051,7 @@ public class QuickActivity extends Activity {
                     alertDialog.show();
                 } else {
                     // Popup a payment type dialog
-                    dialog = new Dialog(Quick.this);
+                    dialog = new Dialog(QuickActivity.this);
                     dialog.setContentView(R.layout.payment_type_popup);
                     // Title for the popup modify item box
                     String tit = getString(R.string.msg_saletype_choose);
@@ -1074,13 +1073,13 @@ public class QuickActivity extends Activity {
 
                     // New VERTICAL Linear Layout for each TextView header and BUTTON row
                     LinearLayout newLLV;
-                    newLLV = new LinearLayout(Quick.this);
+                    newLLV = new LinearLayout(QuickActivity.this);
                     newLLV.setLayoutParams(layoutParams);
                     newLLV.setOrientation(LinearLayout.VERTICAL);
                     newLLV.setHorizontalGravity(Gravity.LEFT);
                     // New HORIZONTAL Linear Layout for the buttons in the group
                     LinearLayout newLLH;
-                    newLLH = new LinearLayout(Quick.this);
+                    newLLH = new LinearLayout(QuickActivity.this);
                     newLLH.setLayoutParams(layoutParams);
                     newLLH.setOrientation(LinearLayout.HORIZONTAL);
                     newLLH.setHorizontalGravity(Gravity.CENTER);
@@ -1095,7 +1094,7 @@ public class QuickActivity extends Activity {
 
                             String st = String.valueOf(i);
 
-                            butPT[i] = new Button(Quick.this);
+                            butPT[i] = new Button(QuickActivity.this);
                             butPT[i].setTag(st); // put the Saletype=i in the button TAG
 
                             butPT[i].setText(nam);
@@ -1201,7 +1200,7 @@ public class QuickActivity extends Activity {
         // build the tickets
         try {
             // Thread safe - we need to do everything from the passed in JSONtmp
-            final ProgressDialog pd = ProgressDialog.show(Quick.this, getString(R.string.tab3_sending_title), getString(R.string.tab3_sending), true, false);
+            final ProgressDialog pd = ProgressDialog.show(QuickActivity.this, getString(R.string.tab3_sending_title), getString(R.string.tab3_sending), true, false);
             new Thread(new Runnable() {
                 public void run() {
                     // Do the printing.
@@ -1237,7 +1236,7 @@ public class QuickActivity extends Activity {
     private void sendTheTab(final JSONArray JSONtmp) {
         try {
             // Thread safe - we need to do everything from the passed in JSONtmp
-            final ProgressDialog pd = ProgressDialog.show(Quick.this, getString(R.string.tab3_sending_title), getString(R.string.tab3_sending), true, false);
+            final ProgressDialog pd = ProgressDialog.show(QuickActivity.this, getString(R.string.tab3_sending_title), getString(R.string.tab3_sending), true, false);
             // Network Send
             new Thread(new Runnable() {
                 public void run() {
@@ -1416,7 +1415,7 @@ public class QuickActivity extends Activity {
         LinearLayout llMain = (LinearLayout) dialog.findViewById(R.id.llMain);
         // new HOR lin Lay
         LinearLayout newLL;
-        newLL = new LinearLayout(Quick.this);
+        newLL = new LinearLayout(QuickActivity.this);
         newLL.setLayoutParams(layoutParams);
         newLL.setOrientation(LinearLayout.HORIZONTAL);
         newLL.setHorizontalGravity(Gravity.RIGHT);
@@ -1425,7 +1424,7 @@ public class QuickActivity extends Activity {
         llMain.addView(newLL, lineLL);
         // work through the items
         for (int i = 0; i < rmbItem.length; i++) {
-            rbM[i] = new Button(Quick.this);
+            rbM[i] = new Button(QuickActivity.this);
             //rbM[i].setId(i);
             rbM[i].setTag(i);
             if (isChinese()) {
@@ -1457,7 +1456,7 @@ public class QuickActivity extends Activity {
             if (remainder == 0) {
                 // start a new LL Horizontal
                 lineLL = lineLL + 1;
-                newLL = new LinearLayout(Quick.this);
+                newLL = new LinearLayout(QuickActivity.this);
                 newLL.setLayoutParams(layoutParams);
                 newLL.setOrientation(LinearLayout.HORIZONTAL);
                 llMain.addView(newLL, lineLL);
@@ -1472,7 +1471,7 @@ public class QuickActivity extends Activity {
             // set up array of BUTTONS for each group
             for (int j = 0; j < numOptions; j++) {
                 // new HOR lin Lay
-                newLL = new LinearLayout(Quick.this);
+                newLL = new LinearLayout(QuickActivity.this);
                 newLL.setLayoutParams(layoutParams);
                 newLL.setOrientation(LinearLayout.HORIZONTAL);
                 lineLL = 0;
@@ -1488,7 +1487,7 @@ public class QuickActivity extends Activity {
                 String[] OptDetailAlt = Opt[1].split("%");    // alt language
                 // set up the buttons
                 for (int i = 0; i < OptDetail.length; i++) {
-                    rbO[j][i] = new Button(Quick.this);
+                    rbO[j][i] = new Button(QuickActivity.this);
                     rbO[j][i].setTag(j);
                     if (isChinese()) {
                         String s = OptDetailAlt[i];
@@ -1517,7 +1516,7 @@ public class QuickActivity extends Activity {
                     if (remainder == 0) {
                         // start a new LL Horizontal
                         lineLL = lineLL + 1;
-                        newLL = new LinearLayout(Quick.this);
+                        newLL = new LinearLayout(QuickActivity.this);
                         newLL.setLayoutParams(layoutParams);
                         newLL.setOrientation(LinearLayout.HORIZONTAL);
                         llOption.addView(newLL, lineLL);
@@ -1540,7 +1539,7 @@ public class QuickActivity extends Activity {
             // set up array of BUTTONS for each group
             for (int j = 0; j < numExtras; j++) {
                 // new HOR lin Lay
-                newLL = new LinearLayout(Quick.this);
+                newLL = new LinearLayout(QuickActivity.this);
                 newLL.setLayoutParams(layoutParams);
                 newLL.setOrientation(LinearLayout.HORIZONTAL);
                 lineLL = 0;
@@ -1557,7 +1556,7 @@ public class QuickActivity extends Activity {
 
                 // set up the buttons
                 for (int i = 0; i < ExtDetail.length; i++) {
-                    rbE[j][i] = new Button(Quick.this);
+                    rbE[j][i] = new Button(QuickActivity.this);
                     final Integer btnID = 100 * j + i;
                     rbE[j][i].setId(btnID);
                     rbE[j][i].setTag(j);
@@ -1599,7 +1598,7 @@ public class QuickActivity extends Activity {
                     if (remainder == 0) {
                         // start a new LL Horizontal
                         lineLL = lineLL + 1;
-                        newLL = new LinearLayout(Quick.this);
+                        newLL = new LinearLayout(QuickActivity.this);
                         newLL.setLayoutParams(layoutParams);
                         newLL.setOrientation(LinearLayout.HORIZONTAL);
                         llExtra.addView(newLL, lineLL);
@@ -1846,20 +1845,20 @@ public class QuickActivity extends Activity {
 
                 // New VERTICAL Linear Layout for each TextView header and BUTTON row
                 LinearLayout newLLV;
-                newLLV = new LinearLayout(Quick.this);
+                newLLV = new LinearLayout(QuickActivity.this);
                 newLLV.setLayoutParams(layoutParams);
                 newLLV.setOrientation(LinearLayout.VERTICAL);
                 newLLV.setHorizontalGravity(Gravity.LEFT);
                 // New HORIZONTAL Linear Layout for the buttons in the group
                 LinearLayout newLLH;
-                newLLH = new LinearLayout(Quick.this);
+                newLLH = new LinearLayout(QuickActivity.this);
                 newLLH.setLayoutParams(layoutParams);
                 newLLH.setOrientation(LinearLayout.HORIZONTAL);
                 newLLH.setHorizontalGravity(Gravity.CENTER);
 
                 for (int j = 0; j < JSONitems.length(); j++) {
                     JSONArray ji = JSONitems.getJSONArray(j);
-                    butOIP[j] = new Button(Quick.this);
+                    butOIP[j] = new Button(QuickActivity.this);
                     butOIP[j].setTag(ji.toString()); // put the whole JSON item into the tag so we know what to do when it gets pressed
                     if (isChinese()) butOIP[j].setText(jsonGetter2(ji, "titlealt").toString());
                     else butOIP[j].setText(jsonGetter2(ji, "title").toString());
@@ -1877,7 +1876,7 @@ public class QuickActivity extends Activity {
                     newLLH.addView(butOIP[j], j, layoutParams3);
                 }
                 // Add the header
-                TextView tvtitle = new TextView(Quick.this);
+                TextView tvtitle = new TextView(QuickActivity.this);
                 tvtitle.setText(nam);
                 tvtitle.setLayoutParams(layoutParams);
                 newLLV.addView(tvtitle);
@@ -1892,18 +1891,18 @@ public class QuickActivity extends Activity {
         // Add the final custom spec ins button
         // New VERTICAL Linear Layout for each TextView header and BUTTON row
         LinearLayout newLLV;
-        newLLV = new LinearLayout(Quick.this);
+        newLLV = new LinearLayout(QuickActivity.this);
         newLLV.setLayoutParams(layoutParams);
         newLLV.setOrientation(LinearLayout.VERTICAL);
         newLLV.setHorizontalGravity(Gravity.LEFT);
         // New HORIZONTAL Linear Layout for the buttons in the group
         LinearLayout newLLH;
-        newLLH = new LinearLayout(Quick.this);
+        newLLH = new LinearLayout(QuickActivity.this);
         newLLH.setLayoutParams(layoutParams);
         newLLH.setOrientation(LinearLayout.HORIZONTAL);
         newLLH.setHorizontalGravity(Gravity.CENTER);
         // Add the button
-        Button butCustSI = new Button(Quick.this);
+        Button butCustSI = new Button(QuickActivity.this);
         butCustSI.setText(getString(R.string.special_ins_custom));
         butCustSI.setTextColor(Color.parseColor(textColors[0]));
         butCustSI.setTextSize(txtSize1);
@@ -1915,7 +1914,7 @@ public class QuickActivity extends Activity {
             public void onClick(View v) {
                 try {
                     // Custom dialog needed to get the instructions. position=the dish index
-                    final Dialog dialogAS = new Dialog(Quick.this);
+                    final Dialog dialogAS = new Dialog(QuickActivity.this);
 
                     dialogAS.setContentView(R.layout.special_instruction);
                     dialogAS.setCancelable(true);
@@ -1978,7 +1977,7 @@ public class QuickActivity extends Activity {
         });
         newLLH.addView(butCustSI, 0, layoutParams3);
         // Add the header
-        TextView tvtitle = new TextView(Quick.this);
+        TextView tvtitle = new TextView(QuickActivity.this);
         tvtitle.setText(getString(R.string.special_ins_title));
         tvtitle.setLayoutParams(layoutParams);
         newLLV.addView(tvtitle);
@@ -2024,7 +2023,7 @@ public class QuickActivity extends Activity {
                     saveJsonTable(currentTicketID, JSONOrderAry);
                     mHandler.post(mUpdateResults);
                 } else {
-                    Toast.makeText(Quick.this, getString(R.string.msg_operation_not_allowed), Toast.LENGTH_LONG).show();
+                    Toast.makeText(QuickActivity.this, getString(R.string.msg_operation_not_allowed), Toast.LENGTH_LONG).show();
                 }
             }
             // Handle Quantities
@@ -2091,7 +2090,7 @@ public class QuickActivity extends Activity {
                 label.setText(spanString);
             }
             label.setTextSize(textSize);
-            label.setHeight((int) (Utils.getWindowButtonHeight(Quick.this)));
+            label.setHeight((int) (Utils.getWindowButtonHeight(QuickActivity.this)));
 
             String catColumns = menuColumns[1];
             // look up the category and set the language
@@ -2230,10 +2229,10 @@ public class QuickActivity extends Activity {
                                     makeCall.setData(Uri.parse("tel:" + Uri.encode(telnum)));
                                     startActivity(makeCall);
                                 } else {
-                                    Toast.makeText(Quick.this, "\nNo telephone number available.\n", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(QuickActivity.this, "\nNo telephone number available.\n", Toast.LENGTH_LONG).show();
                                 }
                             } else {
-                                Toast.makeText(Quick.this, "\nTelephone calls not available on this device.\n", Toast.LENGTH_LONG).show();
+                                Toast.makeText(QuickActivity.this, "\nTelephone calls not available on this device.\n", Toast.LENGTH_LONG).show();
                             }
                         }
                     });
@@ -2243,9 +2242,14 @@ public class QuickActivity extends Activity {
                     if (src == 3) llrb.setVisibility(View.VISIBLE);    // Show for mobile orders
                     else llrb.setVisibility(View.INVISIBLE);
 
+                    // When a mobile order ticket is displayed the following 3 buttons allow the user to control communication with the user
+                    // through push messages. The code below is commented out and needs to be refactored for Firebase Cloud Messaging (FCM)
+                    // The old method relied on MQTT which is no longer supported by SmartMenu.
+
                     Button bAccept = (Button) v.findViewById(R.id.TicketAccept);
                     bAccept.setOnClickListener(new OnClickListener() {
                         public void onClick(View v) {
+                            /*
                             String sendMsg = "Accepted";
                             SmartMenuService.actionPushItOut(getApplicationContext(), did, sendMsg);
                             // update the response
@@ -2258,14 +2262,14 @@ public class QuickActivity extends Activity {
                             } catch (JSONException e) {
                                 log("JSONOtmp bAccept=" + e);
                             }
-                            //responseCode[position] = 1;
-                            //Toast.makeText(Quick.this, "\nACCEPTED was sent\n", Toast.LENGTH_LONG).show();
+                            */
                         }
                     });
 
                     Button bCallUs = (Button) v.findViewById(R.id.TicketCallUs);
                     bCallUs.setOnClickListener(new OnClickListener() {
                         public void onClick(View v) {
+                            /*
                             String sendMsg = "Call";
                             SmartMenuService.actionPushItOut(getApplicationContext(), did, sendMsg);
                             // update the response
@@ -2278,8 +2282,7 @@ public class QuickActivity extends Activity {
                             } catch (JSONException e) {
                                 log("JSONOtmp bAccept=" + e);
                             }
-                            //responseCode[position] = 2;
-                            //Toast.makeText(Quick.this, "\nACCEPTED was sent\n", Toast.LENGTH_LONG).show();
+                            */
                         }
                     });
 
@@ -2287,6 +2290,7 @@ public class QuickActivity extends Activity {
                     final CheckBox cboor = (CheckBox) v.findViewById(R.id.OutOfRange);
                     bReject.setOnClickListener(new OnClickListener() {
                         public void onClick(View v) {
+                            /*
                             String sendMsg = "Reject";
                             if (cboor.isChecked()) sendMsg = "Reject-Range";
                             SmartMenuService.actionPushItOut(getApplicationContext(), did, sendMsg);
@@ -2300,37 +2304,15 @@ public class QuickActivity extends Activity {
                             } catch (JSONException e) {
                                 log("JSONOtmp bAccept=" + e);
                             }
-                            //responseCode[position] = 3;
-                            //Toast.makeText(Quick.this, "\nACCEPTED was sent\n", Toast.LENGTH_LONG).show();
+                            */
                         }
                     });
-
-                    // style the buttons based on response codes
-              	  	/*
-              	  	if (responseCode[position] == 1) {
-              	  		bAccept.setBackgroundResource(R.drawable.border_yellow_tight);
-              	  		bCallUs.setBackgroundResource(R.drawable.border_grey_tight_inner);
-              	  		bReject.setBackgroundResource(R.drawable.border_grey_tight_inner);
-              	  	} else if (responseCode[position] == 2) {
-              	  		bAccept.setBackgroundResource(R.drawable.border_grey_tight_inner);
-              	  		bCallUs.setBackgroundResource(R.drawable.border_yellow_tight);
-              	  		bReject.setBackgroundResource(R.drawable.border_grey_tight_inner);
-              	  	} else if (responseCode[position] == 3) {
-              	  		bAccept.setBackgroundResource(R.drawable.border_grey_tight_inner);
-              	  		bCallUs.setBackgroundResource(R.drawable.border_grey_tight_inner);
-              	  		bReject.setBackgroundResource(R.drawable.border_yellow_tight);
-              	  	} else {
-              	  		bAccept.setBackgroundResource(R.drawable.border_grey_tight_inner);
-              	  		bCallUs.setBackgroundResource(R.drawable.border_grey_tight_inner);
-              	  		bReject.setBackgroundResource(R.drawable.border_grey_tight_inner);
-              	  	}
-              	  	*/
 
                     Button bEdit = (Button) v.findViewById(R.id.TicketEdit);
                     bEdit.setOnClickListener(new OnClickListener() {
                         public void onClick(View v) {
                             // Handle the phone details update if they click
-                            final CustomDialog customDialog = new CustomDialog(Quick.this);
+                            final CustomDialog customDialog = new CustomDialog(QuickActivity.this);
                             LayoutInflater factory = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                             final View textEntryView = factory.inflate(R.layout.caller_detail, null);
 
@@ -2394,7 +2376,7 @@ public class QuickActivity extends Activity {
                             }
 
                             listCalls = (ListView) customDialog.findViewById(R.id.last10List);
-                            last10Adapter = new ArrayAdapter<String>(Quick.this, android.R.layout.simple_list_item_1, last10Calls);
+                            last10Adapter = new ArrayAdapter<String>(QuickActivity.this, android.R.layout.simple_list_item_1, last10Calls);
                             listCalls.setAdapter(last10Adapter);
                             listCalls.setOnItemClickListener(new OnItemClickListener() {
                                 public void onItemClick(AdapterView parent, View v, final int position, long id) {
@@ -2577,11 +2559,11 @@ public class QuickActivity extends Activity {
         private int orderFontSizeSmall;
         private SparseBooleanArray mSelectedItemsIds;
 
-        public OrderAdapter(Quick quick, int textViewResourceId, ArrayList<JSONArray> items) {
+        public OrderAdapter(QuickActivity quickActivity, int textViewResourceId, ArrayList<JSONArray> items) {
             super(getBaseContext(), textViewResourceId, items);
             this.items = items;
-            orderFontSize = (Utils.getFontSize(Quick.this));
-            orderFontSizeSmall = (int) (Utils.getFontSize(Quick.this) / 1.2);
+            orderFontSize = (Utils.getFontSize(QuickActivity.this));
+            orderFontSizeSmall = (int) (Utils.getFontSize(QuickActivity.this) / 1.2);
             mSelectedItemsIds = new SparseBooleanArray();
         }
 
@@ -2900,7 +2882,7 @@ public class QuickActivity extends Activity {
     }
 
     public void lostConnection() {
-        AlertDialog alertDialog = new AlertDialog.Builder(Quick.this).create();
+        AlertDialog alertDialog = new AlertDialog.Builder(QuickActivity.this).create();
         alertDialog.setTitle("Connection");
         alertDialog.setIcon(android.R.drawable.stat_sys_warning);
         alertDialog.setMessage("Data connection not available. Please restart.");
@@ -2917,7 +2899,7 @@ public class QuickActivity extends Activity {
         LinearLayout mll;
         mll = ll;
         // add divider line
-        ImageView imageLine = new ImageView(Quick.this);
+        ImageView imageLine = new ImageView(QuickActivity.this);
         imageLine.setBackgroundResource(R.drawable.bar_white);
         mll.addView(imageLine);
     }
@@ -2926,7 +2908,7 @@ public class QuickActivity extends Activity {
         LinearLayout mll;
         mll = ll;
         // add divider line
-        ImageView imageLine = new ImageView(Quick.this);
+        ImageView imageLine = new ImageView(QuickActivity.this);
         imageLine.setBackgroundResource(R.drawable.gap);
         mll.addView(imageLine);
     }
@@ -3016,7 +2998,7 @@ public class QuickActivity extends Activity {
         public void onReceive(Context context, Intent intent) {
             infoWifi = "Checking";
             SupplicantState supState;
-            WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+            WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             WifiInfo wifiInfo = wifiManager.getConnectionInfo();
             supState = wifiInfo.getSupplicantState();
             infoWifi = "" + supState;
@@ -3100,7 +3082,7 @@ public class QuickActivity extends Activity {
                                 JSONOrderStr[newTicketID] = JSONtmp.toString();
                                 saveJsonTable(newTicketID, JSONtmp);
                             } else {
-                                Toast.makeText(Quick.this, "\n\n\nNo Tickets Available\n\n\n", Toast.LENGTH_LONG).show();
+                                Toast.makeText(QuickActivity.this, "\n\n\nNo Tickets Available\n\n\n", Toast.LENGTH_LONG).show();
                             }
                         } catch (JSONException e) {
                             log("JSONOtmp incomingCallReceiver e=" + e);
@@ -3117,7 +3099,7 @@ public class QuickActivity extends Activity {
 
     private void getPassword(String js, String expectedpw, int returnID, int dishPosition, Dialog dialogNames) {
         final Dialog dialogPW;
-        dialogPW = new Dialog(Quick.this);
+        dialogPW = new Dialog(QuickActivity.this);
         dialogPW.setContentView(R.layout.password);
         dialogPW.setCancelable(true);
         dialogPW.setCanceledOnTouchOutside(true);
@@ -3259,13 +3241,13 @@ public class QuickActivity extends Activity {
             } catch (Exception ex) {
                 String errorString = "";
                 if (err != null) errorString = EpsonCom.getErrorText(err);
-                messageBox(Quick.this,
+                messageBox(QuickActivity.this,
                         "Sorry, Cash Drawer cannot be opened. " + errorString,
                         "Connection problem 1");
             }
         } else {
             String errorString = "Sorry, Cash Drawer cannot be opened. ";
-            messageBox(Quick.this, errorString, "Connection problem 1b");
+            messageBox(QuickActivity.this, errorString, "Connection problem 1b");
         }
     }
 
@@ -3334,14 +3316,14 @@ public class QuickActivity extends Activity {
         item5.setTitle("Broker" + "\n" + " " + bstate + " ");
 
         SubMenu subMenu8 = menu.addSubMenu(0, 8, menu.NONE, "Tools");
-        subMenu8.setIcon(R.drawable.ic_menu_preferences);
+        subMenu8.setIcon(android.R.drawable.ic_menu_preferences);
         subMenu8.add(0, 12, menu.NONE, "Status");
         subMenu8.add(0, 13, menu.NONE, "Open Cash Drawer");
         subMenu8.add(0, 15, menu.NONE, "Unsent Orders");
         subMenu8.add(0, 19, menu.NONE, "Reload Order");
         subMenu8.add(0, 20, menu.NONE, "Register Logout");
         MenuItem subMenu8Item = subMenu8.getItem();
-        subMenu8Item.setIcon(R.drawable.ic_menu_preferences);
+        subMenu8Item.setIcon(android.R.drawable.ic_menu_preferences);
         subMenu8Item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         return (super.onCreateOptionsMenu(menu));
@@ -3374,20 +3356,10 @@ public class QuickActivity extends Activity {
             map2.put(getString(R.string.msg_about_filesource), Global.FileSource);
             populateField(map2, tv2);
 
-            TextView tv3 = (TextView) customDialog.findViewById(R.id.AboutServerIP);
-            Map<String, String> map3 = new LinkedHashMap<String, String>();
-            map3.put(getString(R.string.msg_about_serverIP), Global.ServerIP);
-            populateField(map3, tv3);
-
-            TextView tv5 = (TextView) customDialog.findViewById(R.id.AboutSMID);
+            TextView tv5 = (TextView) customDialog.findViewById(R.id.AboutSmartMenuID);
             Map<String, String> map5 = new LinkedHashMap<String, String>();
             map5.put(getString(R.string.msg_about_smartmenuid), Global.SMID);
             populateField(map5, tv5);
-
-            TextView tv5b = (TextView) customDialog.findViewById(R.id.AboutStoreMenuID);
-            Map<String, String> map5b = new LinkedHashMap<String, String>();
-            map5b.put(getString(R.string.msg_about_storemenuid), Global.StoreID + "/" + Global.ActiveMenuID);
-            populateField(map5b, tv5b);
 
             TextView tv6 = (TextView) customDialog.findViewById(R.id.AboutMenuVersion);
             Map<String, String> map6 = new LinkedHashMap<String, String>();
@@ -3399,23 +3371,35 @@ public class QuickActivity extends Activity {
             map7.put(getString(R.string.msg_about_deviceid), Global.MasterDeviceId);
             populateField(map7, tv7);
 
+            TextView tv7a = (TextView) customDialog.findViewById(R.id.AboutDeviceIP);
+            Map<String, String> map7a = new LinkedHashMap<String, String>();
+            map7a.put(getString(R.string.msg_about_deviceip), Utils.getIpAddress(true));
+            populateField(map7a, tv7a);
+
+            TextView tv8 = (TextView) customDialog.findViewById(R.id.AboutTicketnum);
+            Map<String, String> map8 = new LinkedHashMap<String, String>();
+            map8.put(getString(R.string.msg_about_ticketnum), "N/A");
+            populateField(map8, tv8);
+
             TextView tv9 = (TextView) customDialog.findViewById(R.id.AboutWifi);
             Map<String, String> map9 = new LinkedHashMap<String, String>();
             map9.put(getString(R.string.msg_about_wifistatus), infoWifi);
             populateField(map9, tv9);
 
-            Button bMQTT = (Button) customDialog.findViewById(R.id.connectMQTT);
-            bMQTT.setVisibility(View.VISIBLE);
-            bMQTT.setOnClickListener(new OnClickListener() {
-                public void onClick(View v) {
-                    // Start the Service
-                    //SmartMenuService.actionDisconnect(getApplicationContext());
-                    SmartMenuService.actionReconnect(getApplicationContext());
-                }
-            });
+            // Include the actual IP addresses do they can see them with the status indicators
+            TextView tvServerIP = (TextView) customDialog.findViewById(R.id.label1a2);
+            tvServerIP.setText(Global.ServerIP);
+            TextView tvPOS1IP = (TextView) customDialog.findViewById(R.id.label2a);
+            tvPOS1IP.setText(Global.POS1Ip);
+            TextView tvPOS2IP = (TextView) customDialog.findViewById(R.id.label13a);
+            tvPOS2IP.setText(Global.POS2Ip);
+            TextView tvPOS3IP = (TextView) customDialog.findViewById(R.id.label14a);
+            tvPOS3IP.setText(Global.POS3Ip);
 
-            //create and run status thread
-            createAndRunStatusThread(this, customDialog);
+            //Create and run status thread for continuous updates
+            //createAndRunStatusThread(this,customDialog);
+            // Just update once, no need to keep refreshing it.
+            updateConnectionStatus(customDialog);
             return (true);
         }
         if (item.getItemId() == 13) {
@@ -3442,14 +3426,14 @@ public class QuickActivity extends Activity {
                 unsentItemList.add(f.getName());
 
             listUnsent = (ListView) customDialog.findViewById(R.id.unsentItemList);
-            unsentAdapter = new ArrayAdapter<String>(Quick.this, android.R.layout.simple_list_item_1, unsentItemList);
+            unsentAdapter = new ArrayAdapter<String>(QuickActivity.this, android.R.layout.simple_list_item_1, unsentItemList);
             listUnsent.setAdapter(unsentAdapter);
 
             // set up a button, when they click, resend all the items
             Button butSnd = (Button) customDialog.findViewById(R.id.butSndAll);
             butSnd.setOnClickListener(new OnClickListener() {
                 public void onClick(View v) {
-                    final ProgressDialog pd = ProgressDialog.show(Quick.this, "Sending", "Sending order(s) to the server...", true, false);
+                    final ProgressDialog pd = ProgressDialog.show(QuickActivity.this, "Sending", "Sending order(s) to the server...", true, false);
                     new Thread(new Runnable() {
                         public void run() {
                             if ((pingIP()) & (Global.TicketToCloud)) {
@@ -3466,7 +3450,7 @@ public class QuickActivity extends Activity {
                                         obj.put("sendtpye", "2");
                                         JSONOrder.put(jsonGetter3(JSONOrder, "sendtype"), obj);
 
-                                        int sc = Utils.SendMultipartJsonOrder(postURL, JSONOrder.toString(1), Global.SMID, Global.StoreID);
+                                        int sc = Utils.SendMultipartJsonOrder(postURL, JSONOrder.toString(1), Global.SMID);
                                         log("Resent=" + orderid + " status code=" + sc);
                                         if (sc == 200) {
                                             if (readFile.delete()) {
@@ -3515,7 +3499,7 @@ public class QuickActivity extends Activity {
         }
         if (item.getItemId() == 20) {
             if (JSONTickets.size() > 0) {
-                AlertDialog alertDialog = new AlertDialog.Builder(Quick.this).create();
+                AlertDialog alertDialog = new AlertDialog.Builder(QuickActivity.this).create();
                 alertDialog.setTitle(getString(R.string.tab3_opentabs_title));
                 alertDialog.setMessage(getString(R.string.tab3_opentabs_text));
                 alertDialog.setButton(getString(R.string.tab3_continue), new DialogInterface.OnClickListener() {
@@ -3620,7 +3604,7 @@ public class QuickActivity extends Activity {
         }
         if (item.getItemId() == 2) {
             // Handle a click on the Server, allow change of User in case a manager or admin password is required for an operation
-            AlertDialog.Builder builder = new AlertDialog.Builder(Quick.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(QuickActivity.this);
             builder.setTitle(getString(R.string.login_person_name));
             builder.setCancelable(true);
             String[] tmpArr = new String[Global.userList.size()];
@@ -3668,7 +3652,7 @@ public class QuickActivity extends Activity {
             GridView gridview = (GridView) findViewById(R.id.gridView1);
             gridview.setAdapter(new GridAdapter(this, R.layout.array_list_item, dishArrayList));
             listOrder = (ListView) findViewById(R.id.listOrder);
-            listOrder.setAdapter(new OrderAdapter(Quick.this, R.layout.list_item, JSONOrderList));
+            listOrder.setAdapter(new OrderAdapter(QuickActivity.this, R.layout.list_item, JSONOrderList));
             invalidateOptionsMenu();
             setupButtons();
             return (true);
@@ -3683,7 +3667,7 @@ public class QuickActivity extends Activity {
             GridView gridview = (GridView) findViewById(R.id.gridView1);
             gridview.setAdapter(new GridAdapter(this, R.layout.array_list_item, dishArrayList));
             listOrder = (ListView) findViewById(R.id.listOrder);
-            listOrder.setAdapter(new OrderAdapter(Quick.this, R.layout.list_item, JSONOrderList));
+            listOrder.setAdapter(new OrderAdapter(QuickActivity.this, R.layout.list_item, JSONOrderList));
             invalidateOptionsMenu();
             setupButtons();
             return (true);
@@ -3754,7 +3738,7 @@ public class QuickActivity extends Activity {
                         for (File f : filesR) reloadItemList.add(f.getName());
 
                         gridReload = (GridView) customDialog.findViewById(R.id.reloadItemGrid);
-                        reloadAdapter = new TicketGridAdapter(Quick.this, R.layout.ticket_grid_item, reloadItemList);
+                        reloadAdapter = new TicketGridAdapter(QuickActivity.this, R.layout.ticket_grid_item, reloadItemList);
                         gridReload.setAdapter(reloadAdapter);
 
                         gridReload.setOnItemClickListener(new OnItemClickListener() {
@@ -3803,13 +3787,13 @@ public class QuickActivity extends Activity {
                     @Override
                     public void onClick(View v) {
                         // TODO Auto-generated method stub
-                        new DatePickerDialog(Quick.this, date, myCalendar
+                        new DatePickerDialog(QuickActivity.this, date, myCalendar
                                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                                 myCalendar.get(Calendar.DAY_OF_MONTH)).show();
                     }
                 });
             } else {
-                Toast.makeText(Quick.this, "\n\n\nNo Tickets Available\n\n\n", Toast.LENGTH_LONG).show();
+                Toast.makeText(QuickActivity.this, "\n\n\nNo Tickets Available\n\n\n", Toast.LENGTH_LONG).show();
             }
             return (true);
         }
@@ -3822,7 +3806,7 @@ public class QuickActivity extends Activity {
                 if (currentTicketID != -1) {
                     vfMenuTable.setDisplayedChild(0);
                 } else {
-                    Toast.makeText(Quick.this, "\n\n\nPlease Select a Ticket\n\n\n", Toast.LENGTH_LONG).show();
+                    Toast.makeText(QuickActivity.this, "\n\n\nPlease Select a Ticket\n\n\n", Toast.LENGTH_LONG).show();
                 }
             }
             invalidateOptionsMenu();
@@ -3886,8 +3870,7 @@ public class QuickActivity extends Activity {
                     String postURL = "https://" + Global.ServerIP + Global.PosSaveActivityURL;
                     Utils.SendMultipartAdhoc(postURL,
                             sendServer,
-                            Global.SMID,
-                            Global.StoreID);
+                            Global.SMID);
                 } else {
                     log("PlaceOrder: activityLogger failed");
                 }
@@ -4109,17 +4092,6 @@ public class QuickActivity extends Activity {
             if (action.equalsIgnoreCase(SmartMenuService.TICKET_BUMPED)) {
                 invalidateOptionsMenu();
             }
-            if (action.equalsIgnoreCase(SmartMenuService.MQTT_CONNECTION_STATUS)) {
-                Bundle extra = intent.getExtras();
-                String status = extra.getString("status");
-                BrokerConnection = status;
-                invalidateOptionsMenu();
-            }
-            if (action.equalsIgnoreCase(SmartMenuService.MQTT_DELIVERY_COMPLETE)) {
-                Bundle extra = intent.getExtras();
-                String hbtime = extra.getString("time");
-                BrokerLastHeart = hbtime;
-            }
             if (action.equalsIgnoreCase(SmartMenuService.PRINT_STATUS)) {
                 Bundle extras = intent.getExtras();
                 Integer prid = extras.getInt("printerid");
@@ -4208,7 +4180,7 @@ public class QuickActivity extends Activity {
                             saveJsonTable(newTicketID, JSONtmp);
                         }
                     } else {
-                        Toast.makeText(Quick.this, getString(R.string.msg_no_tickets), Toast.LENGTH_LONG).show();
+                        Toast.makeText(QuickActivity.this, getString(R.string.msg_no_tickets), Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     log("json execption processing network order");
@@ -4289,9 +4261,9 @@ public class QuickActivity extends Activity {
     }
 
     private void setupButtons() {
-        int widthL = (int) (Utils.getWidth(Quick.this) / 15.0);
-        int widthM = (int) (Utils.getWidth(Quick.this) / 20.0);
-        int widthS = (int) (Utils.getWidth(Quick.this) / 30.0);
+        int widthL = (int) (Utils.getWidth(QuickActivity.this) / 15.0);
+        int widthM = (int) (Utils.getWidth(QuickActivity.this) / 20.0);
+        int widthS = (int) (Utils.getWidth(QuickActivity.this) / 30.0);
         int widthfull = txtSize0;
 
         closeButton = (Button) findViewById(R.id.closeButton);
@@ -4398,7 +4370,7 @@ public class QuickActivity extends Activity {
 
         orderArr.put(createStr("orderid", tmpOrderId));
         orderArr.put(createInt("source", 5));        // see the orderSource[] for values, type 5 is TO App Direct
-        orderArr.put(createStr("storeid", Global.StoreID));
+        orderArr.put(createStr("storeid", Global.SMID));
         orderArr.put(createStr("customername", ""));
         orderArr.put(createStr("response", ""));
         orderArr.put(createStr("tablename", tmpTableName));
@@ -4578,26 +4550,26 @@ public class QuickActivity extends Activity {
 
     // check for ping connectivity
     private boolean pingIP() {
-        String ip1 = "https://" + Global.ServerIP + Global.ServerReturn204;
+        String ip1 = Global.ProtocolPrefix + Global.ServerIP + Global.ServerReturn204;
         int status = -1;
         Boolean downloadSuccess = false;
         try {
-            InputStream in = null;
             URL url = new URL(ip1);
-            HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
-            conn.setConnectTimeout(Global.ConnectTimeout);
-            conn.setReadTimeout(Global.ReadTimeout);
-            conn.setAllowUserInteraction(false);
-            conn.setInstanceFollowRedirects(false);
-            conn.setRequestMethod("HEAD");
-            //conn.setRequestProperty("User-Agent","<em>Firefox</em>");
-            conn.setUseCaches(false);
-            in = conn.getInputStream();
-            status = conn.getResponseCode();
-            in.close();
-            conn.disconnect();
+            OkHttpClient.Builder b = new OkHttpClient.Builder();
+            b.readTimeout(Global.ReadTimeout, TimeUnit.MILLISECONDS);
+            b.writeTimeout(Global.ReadTimeout, TimeUnit.MILLISECONDS);
+            b.connectTimeout(Global.ConnectTimeout, TimeUnit.MILLISECONDS);
+            final OkHttpClient client = b.build();
+            Request request = new Request.Builder()
+                    .url(url)
+                    .build();
+            Response response = client.newCall(request).execute();
+            status = response.code();
             if (status == 204) {
+                // reachable server
                 downloadSuccess = true;
+            } else {
+                downloadSuccess = false;
             }
         } catch (Exception e) {
             downloadSuccess = false;
@@ -4628,36 +4600,12 @@ public class QuickActivity extends Activity {
             img.setBackgroundResource(R.drawable.presence_busy);
         }
 
-        // update the Master status
-        img = (ImageView) customDialog.findViewById(R.id.litMaster);
-        img.setBackgroundResource(R.drawable.presence_invisible);
-        new pingFetch(Global.POSIp, img).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
         // update the SERVER connection status
         img = (ImageView) customDialog.findViewById(R.id.lit1aServer);
         img.setBackgroundResource(R.drawable.presence_invisible);
-        // AWS doesnt seem to like ICMP so try a 204 check on the server
-        new ping204(img).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-        // update the BROKER connection status
-        img = (ImageView) customDialog.findViewById(R.id.litBroker);
-        img.setBackgroundResource(R.drawable.presence_invisible);
-        if (BrokerConnection.equalsIgnoreCase("connected")) {
-            img.setBackgroundResource(R.drawable.presence_online);
-        } else {
-            img.setBackgroundResource(R.drawable.presence_busy);
+        if (Global.CheckAvailability) {
+            new ping204(img).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
-        // update the Broker Last Heartbeat String
-        TextView heart = (TextView) customDialog.findViewById(R.id.litHeart);
-        heart.setText(BrokerLastHeart);
-
-        // update the Broker Topics
-        TextView topics = (TextView) customDialog.findViewById(R.id.litTopics);
-        String topList = "";
-        for (int j = 0; j < Global.topicList.size(); j++) {
-            topList = topList + Global.topicList.get(j) + "\n";
-        }
-        topics.setText(topList.trim());
 
         // update the Printer1 status
         if (Global.POS1Enable) {
@@ -4676,16 +4624,6 @@ public class QuickActivity extends Activity {
             img = (ImageView) customDialog.findViewById(R.id.lit4a);
             img.setBackgroundResource(R.drawable.presence_invisible);
             new pingFetch(Global.POS3Ip, img).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        }
-
-        // update the POS1 service status
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (prefs.getBoolean("isstarted", false)) {
-            img = (ImageView) customDialog.findViewById(R.id.litPOSservice);
-            img.setBackgroundResource(R.drawable.presence_online);
-        } else {
-            img = (ImageView) customDialog.findViewById(R.id.litPOSservice);
-            img.setBackgroundResource(R.drawable.presence_busy);
         }
     }
 
@@ -4754,23 +4692,22 @@ public class QuickActivity extends Activity {
 
         protected Integer doInBackground(Void... params) {
             try {
-                String ip1 = "https://" + Global.ServerIP + Global.ServerReturn204;
+                String ip1 = Global.ProtocolPrefix + Global.ServerIP + Global.ServerReturn204;
                 int status = -1;
                 code = false;
                 try {
-                    InputStream in = null;
                     URL url = new URL(ip1);
-                    HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
-                    conn.setConnectTimeout(Global.ConnectTimeout);
-                    conn.setReadTimeout(Global.ReadTimeout);
-                    conn.setUseCaches(false);
-                    conn.setAllowUserInteraction(false);
-                    conn.setInstanceFollowRedirects(false);
-                    conn.setRequestMethod("HEAD");
-                    in = conn.getInputStream();
-                    status = conn.getResponseCode();
-                    in.close();
-                    conn.disconnect();
+
+                    OkHttpClient.Builder b = new OkHttpClient.Builder();
+                    b.readTimeout(Global.ReadTimeout, TimeUnit.MILLISECONDS);
+                    b.writeTimeout(Global.ReadTimeout, TimeUnit.MILLISECONDS);
+                    b.connectTimeout(Global.ConnectTimeout, TimeUnit.MILLISECONDS);
+                    final OkHttpClient client = b.build();
+                    Request request = new Request.Builder()
+                            .url(url)
+                            .build();
+                    Response response = client.newCall(request).execute();
+                    status = response.code();
                     if (status == 204) code = true;
                 } catch (Exception e) {
                     code = false;

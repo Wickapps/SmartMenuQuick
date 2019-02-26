@@ -57,7 +57,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -145,14 +144,15 @@ public class LoginActivity extends Activity {
         Global.PausedOrder = true;
         Global.LoggedIn = false;
 
-        // Setup the ActionBar
+        // Setup the Action bar
         getActionBar().setDisplayShowTitleEnabled(true);
-        getActionBar().setSubtitle(Global.AppName);
-        getActionBar().setTitle(Global.CustomerName + " " + Global.StoreID);
+        getActionBar().setTitle(Global.AppNameA);
+        getActionBar().setSubtitle(Global.AppNameB);
 
         // grab the directory where logs will be stored
-        logsDir = new File(android.os.Environment.getExternalStorageDirectory(), "SmartMenuLogs");
+        File logsDir = getExternalFilesDir("SmartMenuLogs");
         if (!logsDir.exists()) logsDir.mkdirs();
+
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefEdit = prefs.edit();
@@ -354,7 +354,7 @@ public class LoginActivity extends Activity {
                                 startActivity(kintent);
                                 break;
                             case 2:
-                                kintent = new Intent(getApplicationContext(), SyncActivity.class);
+                                kintent = new Intent(getApplicationContext(), SettingsActivity.class);
                                 kintent.setFlags((Intent.FLAG_ACTIVITY_NO_HISTORY));
                                 startActivity(kintent);
                                 break;
@@ -469,7 +469,6 @@ public class LoginActivity extends Activity {
         subMenu0.add(0, 12, menu.NONE, "Settings");
         subMenu0.add(0, 13, menu.NONE, "Open Cash Drawer");
         subMenu0.add(0, 16, menu.NONE, "Staff Management");
-        subMenu0.add(0, 17, menu.NONE, "Broker Topic Management");
         MenuItem subMenu0Item = subMenu0.getItem();
         subMenu0Item.setIcon(android.R.drawable.ic_menu_preferences);
         subMenu0Item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
@@ -565,87 +564,6 @@ public class LoginActivity extends Activity {
             });
             return (true);
         }
-        if (item.getItemId() == 17) {
-            LayoutInflater factory = LayoutInflater.from(this);
-            final View textEntryView = factory.inflate(R.layout.broker_admin, null);
-
-            final CustomDialog customDialog = new CustomDialog(this);
-            customDialog.setContentView(textEntryView);
-            customDialog.show();
-            customDialog.setCancelable(true);
-            customDialog.setCanceledOnTouchOutside(true);
-
-            final CheckBox cbgd = (CheckBox) customDialog.findViewById(R.id.guaranteeDelivery);
-            if (Global.GuaranteeDelivery) {
-                cbgd.setChecked(true);
-            } else {
-                cbgd.setChecked(false);
-            }
-            cbgd.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View arg0) {
-                    if (cbgd.isChecked()) {
-                        Global.GuaranteeDelivery = true;
-                        prefEdit.putBoolean("guaranteedelivery", true);
-                        prefEdit.commit();
-                    } else {
-                        Global.GuaranteeDelivery = false;
-                        prefEdit.putBoolean("guaranteedelivery", false);
-                        prefEdit.commit();
-                    }
-                }
-            });
-
-            listTopics = (ListView) customDialog.findViewById(R.id.listTopics);
-            listTopics.setLongClickable(true);
-            listTopics.setPadding(2, 2, 2, 2);
-            adapterBA = new BrokerListAdapter(LoginActivity.this, R.layout.broker_item, Global.topicList);
-            listTopics.setAdapter(adapterBA);
-
-            Button but1 = (Button) customDialog.findViewById(R.id.butNewTopic);
-            but1.setText(getString(R.string.login_new_topic));
-            but1.setTextColor(Color.parseColor("#eeeeee"));
-            but1.setOnClickListener(new OnClickListener() {
-                public void onClick(View v) {
-                    if (Global.topicList.size() <= 9) {
-                        final Dialog dialogABT = new Dialog(LoginActivity.this);
-                        dialogABT.setContentView(R.layout.add_broker_topic);
-                        dialogABT.setCancelable(true);
-                        dialogABT.setCanceledOnTouchOutside(true);
-                        String tit = getString(R.string.login_person_name);
-                        dialogABT.setTitle(tit);
-                        TextView ABTtext = (TextView) dialogABT.findViewById(R.id.ABTtext);
-                        ABTtext.setText(getString(R.string.login_new_topic));
-                        ABTtext.setTextColor(Color.parseColor("#EEEEEE"));
-                        // edit text box is next
-                        Button ABTsave = (Button) dialogABT.findViewById(R.id.ABTadd);
-                        ABTsave.setText(getString(R.string.login_save));
-                        ABTsave.setOnClickListener(new OnClickListener() {
-                            public void onClick(View v) {
-                                EditText specET = (EditText) dialogABT.findViewById(R.id.ABTedit);
-                                String specins = specET.getText().toString();
-                                specins = specins.replaceAll("[^\\p{L}\\p{N}-\\s]", "");
-                                if ((specins.length() > 0) && (!Global.topicList.contains(specins))) {
-
-                                    Global.topicList.add(specins);
-                                    Collections.sort(Global.topicList);
-                                    adapterBA.notifyDataSetChanged();
-                                    dialogABT.dismiss();
-
-                                    Editor prefEdit = prefs.edit();
-                                    Set<String> set = new HashSet<String>();
-                                    set.addAll(Global.topicList);
-                                    prefEdit.putStringSet("topiclist", set);
-                                    prefEdit.commit();
-                                }
-                            }
-                        });
-                        dialogABT.show();
-                    }
-                }
-            });
-            return (true);
-        }
         return (super.onOptionsItemSelected(item));
     }
 
@@ -690,62 +608,6 @@ public class LoginActivity extends Activity {
                             Set<String> set = new HashSet<String>();
                             set.addAll(Global.userList);
                             prefEdit.putStringSet("userlist", set);
-                            prefEdit.commit();
-                        }
-                    });
-                    alertDialog.setButton(getString(R.string.tab3_back), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // back do nothing
-                        }
-                    });
-                    alertDialog.show();
-                }
-            });
-            return v;
-        }
-    }
-
-    private class BrokerListAdapter extends ArrayAdapter<String> {
-        private ArrayList<String> items;
-
-        public BrokerListAdapter(LoginActivity loginActivity, int textViewResourceId, ArrayList<String> items) {
-            super(getBaseContext(), textViewResourceId, items);
-            this.items = items;
-        }
-
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            View v = convertView;
-            if (v == null) {
-                LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                v = vi.inflate(R.layout.broker_item, null);
-            }
-            String o = items.get(position);
-            if (o != null) {
-                TextView tt = (TextView) v.findViewById(R.id.broker_item_title);
-                if (tt != null) {
-                    tt.setText(o);
-                    tt.setTextSize((float) (Utils.getFontSize(LoginActivity.this) / 1.00));
-                    tt.setPadding(2, 2, 2, 2);
-                    tt.setSingleLine();
-                }
-            }
-            // Button to delete a Topic
-            Button del = (Button) v.findViewById(R.id.BrokerDeleteBut);
-            del.setOnClickListener(new OnClickListener() {
-                public void onClick(View v) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
-                    alertDialog.setTitle(getString(R.string.login_delete_title));
-                    alertDialog.setMessage(getString(R.string.login_delete_text));
-                    alertDialog.setButton2(getString(R.string.tab3_delete), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // delete the item
-                            Global.topicList.remove(position);
-                            adapterBA.notifyDataSetChanged();
-
-                            Editor prefEdit = prefs.edit();
-                            Set<String> set = new HashSet<String>();
-                            set.addAll(Global.topicList);
-                            prefEdit.putStringSet("topiclist", set);
                             prefEdit.commit();
                         }
                     });

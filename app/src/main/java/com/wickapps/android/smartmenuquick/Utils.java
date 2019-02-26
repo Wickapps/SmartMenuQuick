@@ -29,15 +29,20 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.URL;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -250,6 +255,39 @@ public class Utils {
         return status;
     }
 
+    public static int Uploader(File file, String fname, String fpath) throws Exception {
+        int statusCode = -1;
+        final MediaType MEDIA_TYPE_TEXT = MediaType.parse("text/plain; charset=utf-8");
+        final URL url = new URL(Global.ProtocolPrefix + Global.ServerIP + Global.Uploader);
+
+        OkHttpClient.Builder b = new OkHttpClient.Builder();
+        b.readTimeout(Global.ReadTimeout, TimeUnit.MILLISECONDS);
+        b.writeTimeout(Global.ReadTimeout, TimeUnit.MILLISECONDS);
+        b.connectTimeout(Global.ConnectTimeout, TimeUnit.MILLISECONDS);
+        final OkHttpClient client = b.build();
+
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("filename", fname)
+                .addFormDataPart("MAX_FILE_SIZE", "300000")
+                .addFormDataPart("filepath", fpath)
+                .addFormDataPart("uploadedfile", fname,
+                        RequestBody.create(MEDIA_TYPE_TEXT, file))
+                .build();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .build();
+
+        Response response = client.newCall(request).execute();
+        if (response.isSuccessful()) {
+            // Successful Upload
+            statusCode = response.code();
+        }
+        return statusCode;
+    }
+
     public static String GetDateTime() {
         Date dt = new Date();
         Integer hours = dt.getHours();
@@ -451,5 +489,33 @@ public class Utils {
             writer.close();
         } catch (Exception e) {
         }
+    }
+
+    public static String getIpAddress(boolean useIPv4) {
+        try {
+            List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface intf : interfaces) {
+                List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
+                for (InetAddress addr : addrs) {
+                    if (!addr.isLoopbackAddress()) {
+                        String sAddr = addr.getHostAddress();
+                        //boolean isIPv4 = InetAddressUtils.isIPv4Address(sAddr);
+                        boolean isIPv4 = sAddr.indexOf(':') < 0;
+
+                        if (useIPv4) {
+                            if (isIPv4)
+                                return sAddr;
+                        } else {
+                            if (!isIPv4) {
+                                int delim = sAddr.indexOf('%'); // drop ip6 zone suffix
+                                return delim < 0 ? sAddr.toUpperCase() : sAddr.substring(0, delim).toUpperCase();
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception ignored) {
+        } // for now eat exceptions
+        return "";
     }
 }

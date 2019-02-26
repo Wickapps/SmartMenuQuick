@@ -23,7 +23,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,8 +35,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -48,17 +47,15 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Locale;
-import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
-import javax.net.ssl.HttpsURLConnection;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class SplashActivity extends Activity {
 
@@ -137,17 +134,21 @@ public class SplashActivity extends Activity {
             Global.userList.clear();
             Global.topicList.clear();
 
+
+            // Use the PREF to bootstrap load, other settings from json settings.txt
             prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
             // Stage 1: Check if we have the required Boot settings, if not prompt for first time setup
-            Global.StoreID = (new String(prefs.getString("storeid", "")));
-            Global.ActiveMenuID = (new String(prefs.getString("activemenuid", "")));
             Global.ServerIP = (new String(prefs.getString("serverip", "")));
             Global.SMID = (new String(prefs.getString("smid", "")));
+            Global.ProtocolPrefix = (new String(prefs.getString("protocolprefix", "http://")));
+            Global.CheckAvailability = (new Boolean(prefs.getBoolean("checkavailability", false)));
 
             // If any of these are blank, prompt for initial setting
-            if ((Global.StoreID.length() == 0) || (Global.ActiveMenuID.length() == 0) || (Global.ServerIP.length() == 0) || (Global.SMID.length() == 0)) {
-                textDir = new File(android.os.Environment.getExternalStorageDirectory(), "SmartMenuFiles");
+            if ((Global.ServerIP.length() == 0) ||
+                    (Global.SMID.length() == 0) ||
+                    (Global.ProtocolPrefix.length() == 0)) {
+                textDir = new File(getFilesDir(), "SmartMenuFiles");
                 Utils.deleteDirectory(textDir);
                 getBootSettings();
             } else {
@@ -173,51 +174,50 @@ public class SplashActivity extends Activity {
         tx1.setText(getString(R.string.boot_intro));
 
         EditText et1 = (EditText) customDialog.findViewById(R.id.serverIP);
-        et1.setText(Global.ServerIP);
+        if (Global.ServerIP.length() == 0) {
+            et1.setText(Global.ServerIPHint);
+        } else {
+            et1.setText(Global.ServerIP);
+        }
+
         EditText et2 = (EditText) customDialog.findViewById(R.id.SMID);
         et2.setText(Global.SMID);
 
         Button but1 = (Button) customDialog.findViewById(R.id.butContinue);
         but1.setText(getString(R.string.boot_continue));
-        but1.setTextColor(Color.parseColor("#eeeeee"));
         but1.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 // Grab the inputs and see how they look
                 Editor prefEdit = prefs.edit();
-                RadioButton rbsi1 = (RadioButton) customDialog.findViewById(R.id.siBut1);
-                RadioButton rbsi2 = (RadioButton) customDialog.findViewById(R.id.siBut2);
-                RadioButton rbsi3 = (RadioButton) customDialog.findViewById(R.id.siBut3);
-                RadioButton rbsi4 = (RadioButton) customDialog.findViewById(R.id.siBut4);
-                RadioButton rbsi5 = (RadioButton) customDialog.findViewById(R.id.siBut5);
-                if (rbsi1.isChecked()) prefEdit.putString("storeid", "1");
-                if (rbsi2.isChecked()) prefEdit.putString("storeid", "2");
-                if (rbsi3.isChecked()) prefEdit.putString("storeid", "3");
-                if (rbsi4.isChecked()) prefEdit.putString("storeid", "4");
-                if (rbsi5.isChecked()) prefEdit.putString("storeid", "5");
-                prefEdit.commit();
-                Global.StoreID = (new String(prefs.getString("storeid", "1")));
-
-                RadioButton rbami1 = (RadioButton) customDialog.findViewById(R.id.amiBut1);
-                RadioButton rbami2 = (RadioButton) customDialog.findViewById(R.id.amiBut2);
-                RadioButton rbami3 = (RadioButton) customDialog.findViewById(R.id.amiBut3);
-                RadioButton rbami4 = (RadioButton) customDialog.findViewById(R.id.amiBut4);
-                RadioButton rbami5 = (RadioButton) customDialog.findViewById(R.id.amiBut5);
-                if (rbami1.isChecked()) prefEdit.putString("activemenuid", "1");
-                if (rbami2.isChecked()) prefEdit.putString("activemenuid", "2");
-                if (rbami3.isChecked()) prefEdit.putString("activemenuid", "3");
-                if (rbami4.isChecked()) prefEdit.putString("activemenuid", "4");
-                if (rbami5.isChecked()) prefEdit.putString("activemenuid", "5");
-                prefEdit.commit();
-                Global.ActiveMenuID = (new String(prefs.getString("activemenuid", "1")));
 
                 EditText et1 = (EditText) customDialog.findViewById(R.id.serverIP);
                 Global.ServerIP = et1.getText().toString();
+
                 EditText et2 = (EditText) customDialog.findViewById(R.id.SMID);
                 Global.SMID = et2.getText().toString();
 
-                if ((Global.ServerIP.length() > 0) && (Global.SMID.length() > 0)) {
+                EditText et3 = (EditText) customDialog.findViewById(R.id.AdminPin);
+                Global.AdminPin = et3.getText().toString();
+
+                // Check for SSL Protocol
+                CheckBox cbSSL = (CheckBox) customDialog.findViewById(R.id.SSLprotocol);
+                if (cbSSL.isChecked()) prefEdit.putString("protocolprefix", "https://");
+                else prefEdit.putString("protocolprefix", "http://");
+                prefEdit.commit();
+                Global.ProtocolPrefix = (new String(prefs.getString("protocolprefix", "http://")));
+
+                // Check for Server Availability 204 Check
+                CheckBox cb204 = (CheckBox) customDialog.findViewById(R.id.Check204);
+                if (cb204.isChecked()) prefEdit.putBoolean("checkavailability", true);
+                else prefEdit.putBoolean("checkavailability", false);
+                prefEdit.commit();
+                Global.CheckAvailability = (new Boolean(prefs.getBoolean("checkavailability", false)));
+
+                if ((Global.ServerIP.length() > 0) &&
+                        (Global.SMID.length() > 0)) {
                     prefEdit.putString("serverip", Global.ServerIP);
                     prefEdit.putString("smid", Global.SMID);
+                    prefEdit.putString("adminpin", Global.AdminPin);
                     prefEdit.commit();
                     // Carry on ...
                     customDialog.dismiss();
@@ -229,62 +229,23 @@ public class SplashActivity extends Activity {
 
     // Continue loading preferences
     private void stage2() {
-        // Now we are ready to load
-        Global.PublicCloud = (new Boolean(prefs.getBoolean("publiccloud", true)));
-
+        // Load the additional priority settings from preferences.
+        // The remainder will load from JSON local or network file.
         Global.MenuVersion = (new String(prefs.getString("menuversion", "0000")));
         Global.StartEnglish = (new Boolean(prefs.getBoolean("startenglish", false)));
-        Global.SetWallpaper = (new Boolean(prefs.getBoolean("setwallpaper", false)));
         Global.AutoMenuReload = (new Boolean(prefs.getBoolean("automenureload", true)));
+        Global.PrintRoundTrip = (new Boolean(prefs.getBoolean("printroundtrip", true)));
 
-        Global.POS1Logo = (new Boolean(prefs.getBoolean("pos1logo", false)));
         Global.POS1Enable = (new Boolean(prefs.getBoolean("pos1enable", false)));
         Global.POS2Enable = (new Boolean(prefs.getBoolean("pos2enable", false)));
         Global.POS3Enable = (new Boolean(prefs.getBoolean("pos3enable", false)));
 
-        Global.PrintRoundTrip = (new Boolean(prefs.getBoolean("printroundtrip", true)));
-        Global.PrintDishID = (new Boolean(prefs.getBoolean("printdishid", true)));
-
-        Global.POSIp = (new String(prefs.getString("posip", "192.168.1.71")));
-
-        Global.POS1Ip = (new String(prefs.getString("pos1ip", "192.168.1.30")));
-        Global.POS2Ip = (new String(prefs.getString("pos2ip", "192.168.1.31")));
-        Global.POS3Ip = (new String(prefs.getString("pos3ip", "192.168.1.32")));
-
-        Global.P2KitchenCodes = (new Boolean(prefs.getBoolean("p2kitchencodes", true)));
-        Global.P3KitchenCodes = (new Boolean(prefs.getBoolean("p3kitchencodes", true)));
-
-        Global.P2FilterCats = (new String(prefs.getString("p2filtercats", "")));
-        Global.P3FilterCats = (new String(prefs.getString("p3filtercats", "")));
-
-        Global.AutoOpenDrawer = (new Boolean(prefs.getBoolean("autoopendrawer", false)));
-        Global.Printer1Type = (new Boolean(prefs.getBoolean("printer1type", false)));
-        Global.Printer2Type = (new Boolean(prefs.getBoolean("printer2type", false)));
-        Global.Printer3Type = (new Boolean(prefs.getBoolean("printer3type", false)));
-        Global.P1PrintSentTime = (new Boolean(prefs.getBoolean("p1printsenttime", true)));
-        Global.P2PrintSentTime = (new Boolean(prefs.getBoolean("p2printsenttime", true)));
-        Global.P3PrintSentTime = (new Boolean(prefs.getBoolean("p3printsenttime", true)));
-
-        Global.GuaranteeDelivery = (new Boolean(prefs.getBoolean("guaranteedelivery", false)));
-
-        Global.TOSendOrderMode = (new Integer(prefs.getInt("tosendordermode", 1)));
-
-        Global.Printer1Copy = (new Integer(prefs.getInt("printer1copy", 1)));
-
-        Set<String> setUser = prefs.getStringSet("userlist", new HashSet<String>());
-        Global.userList.addAll(setUser);
-        Collections.sort(Global.userList);
-
-        Set<String> setTopic = prefs.getStringSet("topiclist", new HashSet<String>());
-        Global.topicList.addAll(setTopic);
-        Collections.sort(Global.topicList);
-
         // Set the directory to save text files
-        textDir = new File(android.os.Environment.getExternalStorageDirectory(), "SmartMenuFiles");
+        textDir = new File(getFilesDir(), "SmartMenuFiles");
         if (!textDir.exists())
             textDir.mkdirs();
 
-        ordersDir = new File(android.os.Environment.getExternalStorageDirectory(), "SmartMenuOrders");
+        ordersDir = new File(getFilesDir(), "SmartMenuOrders");
         if (!ordersDir.exists())
             ordersDir.mkdirs();
 
@@ -336,66 +297,50 @@ public class SplashActivity extends Activity {
         }).start();
     }
 
-
     // check for ping connectivity
     private boolean pingIP() {
         log("entering PingIP");
-        String ip1 = "https://" + Global.ServerIP + Global.ServerReturn204;
-        filesSourceName[3] = "https://" + Global.ServerIP + "/" + Global.SMID + Global.StoreID + "/" + "settings.txt";
+        Boolean downloadSuccess = false;
+        String ip1 = Global.ProtocolPrefix + Global.ServerIP + Global.ServerReturn204;
+        filesSourceName[3] = Global.ProtocolPrefix + Global.ServerIP + "/" + Global.SMID + "/" + "settings.txt";
         String ip2 = filesSourceName[3]; // settings file
         int status = -1;
         try {
-            InputStream in = null;
-            URL url = new URL(ip1);
-            HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
-            conn.setConnectTimeout(Global.ConnectTimeout);
-            conn.setReadTimeout(Global.ReadTimeout);
-            conn.setUseCaches(false);
-            conn.setAllowUserInteraction(false);
-            conn.setInstanceFollowRedirects(false);
-            conn.setRequestMethod("HEAD");
-            in = conn.getInputStream();
-            status = conn.getResponseCode();
-            in.close();
-            conn.disconnect();
-            if (status == 204) {
-                // reachable so now get the menuversion in the settings.txt json file
-                url = new URL(ip2);
-                conn = (HttpsURLConnection) url.openConnection();
-                conn.setConnectTimeout(Global.ConnectTimeout);
-                conn.setReadTimeout(Global.ReadTimeout);
-                conn.setInstanceFollowRedirects(false);
-                conn.setUseCaches(false);
-                conn.setRequestMethod("GET");
-                in = conn.getInputStream();
-                status = conn.getResponseCode();
-                InputStreamReader isr;
-                isr = new InputStreamReader(in, "UTF-8");
-                int charRead;
-                String str = "";
-                char[] inputBuffer = new char[Global.MaxBuffer];
-                while ((charRead = isr.read(inputBuffer)) > 0) {
-                    String readString = String.copyValueOf(inputBuffer, 0, charRead);
-                    str += readString;
-                    inputBuffer = new char[2000];
+            if (Global.CheckAvailability) {
+                URL url = new URL(ip1);
+                OkHttpClient.Builder b = new OkHttpClient.Builder();
+                b.readTimeout(Global.ReadTimeout, TimeUnit.MILLISECONDS);
+                b.writeTimeout(Global.ReadTimeout, TimeUnit.MILLISECONDS);
+                b.connectTimeout(Global.ConnectTimeout, TimeUnit.MILLISECONDS);
+                final OkHttpClient client = b.build();
+                Request request = new Request.Builder()
+                        .url(url)
+                        .build();
+                Response response = client.newCall(request).execute();
+                status = response.code();
+                if (status == 204) {
+                    // reachable so now get the menuversion in the settings.txt json file
+                    String tmpSettings = Utils.DownloadText(ip2);
+                    downloadSuccess = true;
+                    // create the json settings files
+                    JSONArray tmpJson = new JSONArray(tmpSettings);
+                    // load the menuversion
+                    serverMv = jsonGetter(tmpJson, "menuversion").toString();
+                    log("PingIP SC=204 serverMv=" + serverMv + " Global.MenuVersion=" + Global.MenuVersion);
+                } else {
+                    downloadSuccess = false;
+                    log("PingIP Fail SC=" + status + " expecting 204");
                 }
-                in.close();
-                conn.disconnect();
-
-                downloadSuccess = true;
-                String tmpSettings = str;
-                // create the json settings files
-                JSONArray tmpJson = new JSONArray(tmpSettings);
-                // load the menuversion
-                serverMv = jsonGetter(tmpJson, "menuversion").toString();
-                log("PingIP SC=OK serverMv=" + serverMv + " Global.MenuVersion=" + Global.MenuVersion);
             } else {
-                downloadSuccess = false;
-                log("PingIP Fail SC=" + status + " expecting 204");
+                String tmpSettings = Utils.DownloadText(ip2);
+                downloadSuccess = true;
+                JSONArray tmpJson = new JSONArray(tmpSettings);
+                serverMv = jsonGetter(tmpJson, "menuversion").toString();
+                log("PingIP SC=200 serverMv=" + serverMv + " Global.MenuVersion=" + Global.MenuVersion);
             }
         } catch (ProtocolException e1) {
             log("Hmmm... e1=" + e1);
-            downloadSuccess = true;
+            downloadSuccess = false;
             return downloadSuccess;
         } catch (Exception e) {
             downloadSuccess = false;
@@ -406,15 +351,14 @@ public class SplashActivity extends Activity {
 
     private void HttpDownload2() {
         try {
-            Global.FileSource = "Public Cloud";
+            Global.FileSource = "Server";
             //setup file source path+name
-            filesSourceName[0] = "https://" + Global.ServerIP + "/" + Global.SMID + Global.ActiveMenuID + "/" + "menufile.txt";
-            filesSourceName[1] = "https://" + Global.ServerIP + "/" + Global.SMID + Global.ActiveMenuID + "/" + "category.txt";
-            filesSourceName[2] = "https://" + Global.ServerIP + "/" + Global.SMID + Global.ActiveMenuID + "/" + "kitchen.txt";
-            filesSourceName[3] = "https://" + Global.ServerIP + "/" + Global.SMID + Global.StoreID + "/" + "settings.txt";
-            filesSourceName[4] = "https://" + Global.ServerIP + "/" + Global.SMID + Global.ActiveMenuID + "/" + "options.txt";
-            filesSourceName[5] = "https://" + Global.ServerIP + "/" + Global.SMID + Global.ActiveMenuID + "/" + "extras.txt";
-
+            filesSourceName[0] = Global.ProtocolPrefix + Global.ServerIP + "/" + Global.SMID + "/" + "menufile.txt";
+            filesSourceName[1] = Global.ProtocolPrefix + Global.ServerIP + "/" + Global.SMID + "/" + "category.txt";
+            filesSourceName[2] = Global.ProtocolPrefix + Global.ServerIP + "/" + Global.SMID + "/" + "kitchen.txt";
+            filesSourceName[3] = Global.ProtocolPrefix + Global.ServerIP + "/" + Global.SMID + "/" + "settings.txt";
+            filesSourceName[4] = Global.ProtocolPrefix + Global.ServerIP + "/" + Global.SMID + "/" + "options.txt";
+            filesSourceName[5] = Global.ProtocolPrefix + Global.ServerIP + "/" + Global.SMID + "/" + "extras.txt";
             //Loop through the downloads here
             for (int i = 0; i < filesSourceName.length; i++) {
                 filesText[i] = Utils.DownloadText(filesSourceName[i]);
@@ -427,13 +371,13 @@ public class SplashActivity extends Activity {
                     //save it to the local cache for later use
                     writeOutFile(filesText[i], filesLocalName[i]);
                 } else {
-                    log("httpdownload fail");
+                    log("httpsdownload fail");
                     returnCode = 2;
                     mHandler.post(noConnection);
                     break;
                 }
             }
-            log("httpdownload success");
+            log("Network download success");
 
             Global.MENUTXT = filesText[0];
             Global.CATEGORYTXT = filesText[1];
@@ -458,6 +402,7 @@ public class SplashActivity extends Activity {
             finish();
         } catch (Exception e) {
             returnCode = 2;
+            log("httpsdownload2 fail e=" + e);
             mHandler.post(noConnection);
         }
     }
@@ -624,23 +569,47 @@ public class SplashActivity extends Activity {
     }
 
     public void loadJSONSettings() {
-        // load some settings from JSON
+        // load the rest of the non-priority settings from JSON
         Global.CustomerName = jsonGetter(Global.Settings, "customername").toString();
         Global.CustomerNameBrief = jsonGetter(Global.Settings, "customernamebrief").toString();
-        Global.StoreAddress1 = jsonGetter(Global.Settings, "storeaddress1").toString();
-        Global.StoreAddress2 = jsonGetter(Global.Settings, "storeaddress2").toString();
-        Global.StoreAddress3 = jsonGetter(Global.Settings, "storeaddress3").toString();
-        Global.StoreAddress4 = jsonGetter(Global.Settings, "storeaddress4").toString();
-        Global.StoreAddress5 = jsonGetter(Global.Settings, "storeaddress5").toString();
+        Global.StoreAddress = jsonGetter(Global.Settings, "storeaddress").toString();
 
         Global.AdminPin = jsonGetter(Global.Settings, "adminpin").toString();
 
-        // Build the userlist
+        Global.P2FilterCats = jsonGetter(Global.Settings, "p2filtercats").toString();
+        Global.P3FilterCats = jsonGetter(Global.Settings, "p3filtercats").toString();
+
+        Global.POS1Logo = (Boolean) jsonGetter(Global.Settings, "pos1logo");
+
+        Global.PrintDishID = (Boolean) jsonGetter(Global.Settings, "printdishid");
+
+        Global.POSIp = jsonGetter(Global.Settings, "posmasterip").toString();
+
+        Global.POS1Ip = jsonGetter(Global.Settings, "pos1ip").toString();
+        Global.POS2Ip = jsonGetter(Global.Settings, "pos2ip").toString();
+        Global.POS3Ip = jsonGetter(Global.Settings, "pos3ip").toString();
+
+        Global.P2KitchenCodes = (Boolean) jsonGetter(Global.Settings, "p2kitchencodes");
+        Global.P3KitchenCodes = (Boolean) jsonGetter(Global.Settings, "p3kitchencodes");
+
+        Global.AutoOpenDrawer = (Boolean) jsonGetter(Global.Settings, "autoopendrawer");
+
+        Global.Printer1Type = (Boolean) jsonGetter(Global.Settings, "printer1type");
+        Global.Printer2Type = (Boolean) jsonGetter(Global.Settings, "printer2type");
+        Global.Printer3Type = (Boolean) jsonGetter(Global.Settings, "printer3type");
+
+        Global.P1PrintSentTime = (Boolean) jsonGetter(Global.Settings, "p1printsenttime");
+        Global.P2PrintSentTime = (Boolean) jsonGetter(Global.Settings, "p2printsenttime");
+        Global.P3PrintSentTime = (Boolean) jsonGetter(Global.Settings, "p3printsenttime");
+
+        Global.Printer1Copy = (Integer) jsonGetter(Global.Settings, "printer1copy");
+        Global.Printer1CopyTakeOut = (Integer) jsonGetter(Global.Settings, "printer1copytakeout");
+
+        // Build the userlist- a string array of JSON entries
         Global.userList.clear();
         try {
             String tmp = jsonGetter(Global.Settings, "userlist").toString();
             JSONArray JSONusers = new JSONArray(tmp);
-
             // Loop through each user and add it to the userlist string array
             for (int i = 0; i < JSONusers.length(); i++) {
                 JSONArray ju = JSONusers.getJSONArray(i);
@@ -659,24 +628,10 @@ public class SplashActivity extends Activity {
             for (int i = 0; i < JSONmods.length(); i++) {
                 JSONArray ju = JSONmods.getJSONArray(i);
                 Global.modifiers.add(i, ju.toString());
+                //log("mod i=" + i + " json=" + ju.toString());
             }
         } catch (Exception e) {
             log("loadJSONsettings2 Exception=" + e);
-        }
-
-        // Build the Welcome ArrayList
-        // Note that the Welcome info is only actually used in the ORDER app
-        Global.welcome.clear();
-        try {
-            String tmp = jsonGetter(Global.Settings, "welcome").toString();
-            JSONArray JSONwelc = new JSONArray(tmp);
-            // Loop through each modifier and add it to the modifier string array
-            for (int i = 0; i < JSONwelc.length(); i++) {
-                JSONArray ju = JSONwelc.getJSONArray(i);
-                Global.welcome.add(i, ju.toString());
-            }
-        } catch (Exception e) {
-            log("loadJSONsettings3 Exception=" + e);
         }
 
         // Build the Tablenames ArrayList
@@ -686,8 +641,8 @@ public class SplashActivity extends Activity {
             JSONArray JSONtabn = new JSONArray(tmp);
             // Loop through each modifier and add it to the modifier string array
             for (int i = 0; i < JSONtabn.length(); i++) {
-                JSONArray ju = JSONtabn.getJSONArray(i);
-                Global.tablenames.add(i, ju.toString());
+                String tabname = JSONtabn.getString(i);
+                Global.tablenames.add(i, tabname);
             }
         } catch (Exception e) {
             log("loadJSONsettings4 Exception=" + e);

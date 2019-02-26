@@ -46,6 +46,7 @@
     <string name="msg_about_smartmenuid">SmartMenu ID</string>
     <string name="msg_about_menuver">菜单版本</string>
     <string name="msg_about_deviceid">驱动 ID</string>
+    <string name="msg_about_deviceip">驱动 IP</string>
     <string name="msg_about_ticketnum">订单编号</string>
     <string name="msg_about_wifistatus">Wifi 状态</string>
     <string name="msg_about_mode">模式</string>

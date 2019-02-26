@@ -61,7 +61,7 @@
             android:layout_width="wrap_content"
             android:minWidth="200dip"
             android:text="Update Ticket"
-            android:drawableRight="@drawable/ic_menu_more"
+            android:drawableRight="@android:drawable/ic_menu_more"
             android:visibility="gone"
             android:textStyle="normal"
             android:paddingLeft="10.0dip"

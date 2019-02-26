@@ -32,7 +32,7 @@
 
         <activity
             android:label="@string/app_name"
-            android:name="SmartMenu"
+            android:name="SplashActivity"
             android:launchMode="standard"
             android:windowSoftInputMode="stateHidden"
             android:noHistory="true"
@@ -44,14 +44,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="Quick"
+            android:name="QuickActivity"
             android:configChanges="orientation"
             android:screenOrientation="landscape"
             android:launchMode="singleInstance"
             android:windowSoftInputMode="stateHidden"
             android:noHistory="false" />
         <activity
-            android:name="SyncActivity"
+            android:name="SettingsActivity"
             android:screenOrientation="landscape"
             android:configChanges="orientation"
             android:launchMode="singleInstance"

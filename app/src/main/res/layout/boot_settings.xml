@@ -42,6 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Initial Settings"
+                android:textColor="@color/rgbfff"
                 android:textSize="28dip"
                 android:layout_gravity="center"
                 android:padding="10dip"
@@ -51,7 +52,7 @@
                 android:id="@+id/textBootIntro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:text="Welcome to SmartMenu. Please enter your initial settings. You will not have to enter these settings again."
                 android:textColor="@color/rgbeee"
                 android:textSize="15dip"
                 android:layout_gravity="center"
@@ -70,7 +71,7 @@
                     android:layout_width="wrap_content"
                     android:gravity="center"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
+                    android:textColor="@color/rgbeee"
                     android:layout_marginRight="10dp"
                     android:layout_marginLeft="10dp"
                     android:text="Server IP"
@@ -86,6 +87,7 @@
                     android:inputType="textUri"
                     android:text=""
                     android:hint="server name"
+                    android:textColor="@color/rgbfff"
                     android:layout_gravity="center"
                     android:layout_marginRight="10dp"
                     android:gravity="center"></EditText>
@@ -103,7 +105,7 @@
                     android:layout_width="wrap_content"
                     android:gravity="center"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
+                    android:textColor="@color/rgbeee"
                     android:layout_marginRight="10dp"
                     android:layout_marginLeft="10dp"
                     android:text="SmartMenu ID"
@@ -117,6 +119,7 @@
                     android:singleLine="true"
                     android:maxLength="18"
                     android:inputType="text"
+                    android:textColor="@color/rgbfff"
                     android:text=""
                     android:hint="12 alpha chars"
                     android:layout_gravity="center"
@@ -125,159 +128,91 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_gravity="center"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/labelstore"
+                    android:id="@+id/labelSSL"
                     android:layout_width="wrap_content"
+                    android:gravity="center"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:text="Store"
+                    android:textColor="@color/rgbeee"
+                    android:layout_marginRight="10dp"
                     android:layout_marginLeft="10dp"
-                    android:paddingRight="5dp"
-                    android:gravity="left|center_vertical"
+                    android:text="Use SSL Encryption"
                     android:textSize="14sp"></TextView>
 
-                <RadioGroup
-                    android:id="@+id/store"
-                    android:orientation="horizontal"
+                <CheckBox
+                    android:id="@+id/SSLprotocol"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:weightSum="2">
-
-                    <RadioButton
-                        android:id="@+id/siBut1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textColor="@color/white"
-                        android:textSize="14sp"
-                        android:paddingRight="15sp"
-                        android:checked="true"
-                        android:text="1" />
-
-                    <RadioButton
-                        android:id="@+id/siBut2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textColor="@color/white"
-                        android:textSize="14sp"
-                        android:paddingRight="15sp"
-                        android:text="2" />
-
-                    <RadioButton
-                        android:id="@+id/siBut3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textColor="@color/white"
-                        android:textSize="14sp"
-                        android:paddingRight="15sp"
-                        android:text="3" />
-
-                    <RadioButton
-                        android:id="@+id/siBut4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textColor="@color/white"
-                        android:textSize="14sp"
-                        android:paddingRight="15sp"
-                        android:text="4" />
-
-                    <RadioButton
-                        android:id="@+id/siBut5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textColor="@color/white"
-                        android:textSize="14sp"
-                        android:paddingRight="15sp"
-                        android:text="5" />
-                </RadioGroup>
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:checked="true"></CheckBox>
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/labelactivemenu"
+                    android:id="@+id/labelCheck204"
                     android:layout_width="wrap_content"
+                    android:gravity="center"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:gravity="left|center_vertical"
-                    android:text="Menu"
+                    android:textColor="@color/rgbeee"
+                    android:layout_marginRight="10dp"
                     android:layout_marginLeft="10dp"
-                    android:maxLines="1"
-                    android:paddingRight="5dp"
+                    android:text="Check Server Available"
                     android:textSize="14sp"></TextView>
 
-                <RadioGroup
-                    android:id="@+id/activemenu"
-                    android:orientation="horizontal"
+                <CheckBox
+                    android:id="@+id/Check204"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:weightSum="2">
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:checked="true"></CheckBox>
+            </LinearLayout>
 
-                    <RadioButton
-                        android:id="@+id/amiBut1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:layout_weight="1"
-                        android:checked="true"
-                        android:textSize="14sp"
-                        android:paddingRight="15sp"
-                        android:text="1" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-                    <RadioButton
-                        android:id="@+id/amiBut2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:layout_weight="1"
-                        android:textSize="14sp"
-                        android:paddingRight="15sp"
-                        android:text="2" />
+                <TextView
+                    android:id="@+id/labelAdminText"
+                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/rgbeee"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="Admin PIN"
+                    android:textSize="14sp"></TextView>
 
-                    <RadioButton
-                        android:id="@+id/amiBut3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:layout_weight="1"
-                        android:textSize="14sp"
-                        android:paddingRight="15sp"
-                        android:text="3" />
-
-                    <RadioButton
-                        android:id="@+id/amiBut4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:layout_weight="1"
-                        android:textSize="14sp"
-                        android:paddingRight="15sp"
-                        android:text="4" />
-
-                    <RadioButton
-                        android:id="@+id/amiBut5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:layout_weight="1"
-                        android:textSize="14sp"
-                        android:paddingRight="15sp"
-                        android:text="5" />
-                </RadioGroup>
+                <EditText
+                    android:id="@+id/AdminPin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:maxLength="4"
+                    android:inputType="numberPassword"
+                    android:textColor="@color/rgbeee"
+                    android:text=""
+                    android:hint="4 numbers"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"></EditText>
             </LinearLayout>
 
             <Button
@@ -286,10 +221,10 @@
                 android:layout_width="wrap_content"
                 android:text="Continue"
                 android:visibility="visible"
-                android:textColor="@color/rgbfff"
                 android:textStyle="normal"
                 android:textSize="20dip"
                 android:layout_marginTop="30dip"
+                android:textColor="@color/rgbfff"
                 android:enabled="true"
                 android:gravity="left"></Button>
 

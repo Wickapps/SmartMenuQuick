@@ -45,6 +45,7 @@
 	<string name="msg_about_storemenuid">Store/Menu ID</string>
 	<string name="msg_about_menuver">Menu Version</string>
 	<string name="msg_about_deviceid">Device ID</string>
+    <string name="msg_about_deviceip">Device IP</string>
 	<string name="msg_about_ticketnum">Ticket Number</string>
 	<string name="msg_about_wifistatus">Wifi Status</string>
 	<string name="msg_about_mode">Mode</string>

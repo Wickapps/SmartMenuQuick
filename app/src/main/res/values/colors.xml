@@ -43,6 +43,7 @@
     <color name="rgb222">#222222</color>
     <color name="rgb333">#333333</color>
     <color name="rgb444">#444444</color>
+    <color name="darker_grey_5">#555555</color>
     <color name="rgb666">#666666</color>
     <color name="rgb888">#888888</color>
     <color name="rgb999">#999999</color>
