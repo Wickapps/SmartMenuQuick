@@ -80,11 +80,15 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
-import javax.net.ssl.HttpsURLConnection;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class LoginActivity extends Activity {
 
@@ -466,6 +470,7 @@ public class LoginActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         SubMenu subMenu0 = menu.addSubMenu(0, 0, menu.NONE, "Tools");
         subMenu0.setIcon(android.R.drawable.ic_menu_preferences);
+        subMenu0.add(0, 11, menu.NONE, "Status");
         subMenu0.add(0, 12, menu.NONE, "Settings");
         subMenu0.add(0, 13, menu.NONE, "Open Cash Drawer");
         subMenu0.add(0, 16, menu.NONE, "Staff Management");
@@ -483,17 +488,84 @@ public class LoginActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == 1) {
-            // save exit log
-            String sendserver = "5," + Utils.GetDateTime() + "," + Global.ServerName;
-            activityLogger(sendserver);
-            //
-            // Stop the Service
-            SmartMenuService.actionStop(getApplicationContext());
-            //
-            finish();
+
+        if (item.getItemId() == 11) {
+            // Popup the status window
+            LayoutInflater factory = LayoutInflater.from(this);
+            final View textEntryView = factory.inflate(R.layout.info_dialog, null);
+
+            final CustomDialog customDialog = new CustomDialog(this);
+            customDialog.setContentView(textEntryView);
+            customDialog.show();
+            customDialog.setCancelable(true);
+            customDialog.setCanceledOnTouchOutside(true);
+
+            TextView tv0 = (TextView) customDialog.findViewById(R.id.AboutAppName);
+            Map<String, String> map0 = new LinkedHashMap<String, String>();
+            map0.put(getString(R.string.msg_about_app_name), Global.AppName);
+            populateField(map0, tv0);
+
+            TextView tv1 = (TextView) customDialog.findViewById(R.id.AboutVersion);
+            Map<String, String> map1 = new LinkedHashMap<String, String>();
+            map1.put(getString(R.string.msg_about_version_name), getVersionName());
+            populateField(map1, tv1);
+
+            TextView tv2 = (TextView) customDialog.findViewById(R.id.AboutFileSource);
+            Map<String, String> map2 = new LinkedHashMap<String, String>();
+            map2.put(getString(R.string.msg_about_filesource), Global.FileSource);
+            populateField(map2, tv2);
+
+            TextView tv5 = (TextView) customDialog.findViewById(R.id.AboutSmartMenuID);
+            Map<String, String> map5 = new LinkedHashMap<String, String>();
+            map5.put(getString(R.string.msg_about_smartmenuid), Global.SMID);
+            populateField(map5, tv5);
+
+            TextView tv6 = (TextView) customDialog.findViewById(R.id.AboutMenuVersion);
+            Map<String, String> map6 = new LinkedHashMap<String, String>();
+            map6.put(getString(R.string.msg_about_menuver), Global.MenuVersion);
+            populateField(map6, tv6);
+
+            TextView tv7 = (TextView) customDialog.findViewById(R.id.AboutDeviceId);
+            Map<String, String> map7 = new LinkedHashMap<String, String>();
+            map7.put(getString(R.string.msg_about_deviceid), Global.MasterDeviceId);
+            populateField(map7, tv7);
+
+            TextView tv7a = (TextView) customDialog.findViewById(R.id.AboutDeviceIP);
+            Map<String, String> map7a = new LinkedHashMap<String, String>();
+            map7a.put(getString(R.string.msg_about_deviceip), Utils.getIpAddress(true));
+            populateField(map7a, tv7a);
+
+            /*
+            // Not supporting TickerNumbers in the Quick Service App.
+            TextView tv8 = (TextView) customDialog.findViewById(R.id.AboutTicketnum);
+            Map<String, String> map8 = new LinkedHashMap<String, String>();
+            map8.put(getString(R.string.msg_about_ticketnum), Global.TicketNum.toString());
+            populateField(map8, tv8);
+            */
+
+            TextView tv9 = (TextView) customDialog.findViewById(R.id.AboutWifi);
+            Map<String, String> map9 = new LinkedHashMap<String, String>();
+            map9.put(getString(R.string.msg_about_wifistatus), infoWifi);
+            populateField(map9, tv9);
+
+            // Include the actual IP addresses do they can see them with the status indicators
+            TextView tvServerIP = (TextView) customDialog.findViewById(R.id.label1a2);
+            tvServerIP.setText(Global.ServerIP);
+            TextView tvPOS1IP = (TextView) customDialog.findViewById(R.id.label2a);
+            tvPOS1IP.setText(Global.POS1Ip);
+            TextView tvPOS2IP = (TextView) customDialog.findViewById(R.id.label13a);
+            tvPOS2IP.setText(Global.POS2Ip);
+            TextView tvPOS3IP = (TextView) customDialog.findViewById(R.id.label14a);
+            tvPOS3IP.setText(Global.POS3Ip);
+
+            //create and run status thread
+            //createAndRunStatusThread(this,customDialog);
+            // Just update the status indicators once
+            updateConnectionStatus(customDialog);
+
             return (true);
         }
+
         if (item.getItemId() == 12) {
             // Settings
             // Ask for password
@@ -781,18 +853,6 @@ public class LoginActivity extends Activity {
             img.setBackgroundResource(R.drawable.presence_invisible);
             new pingFetch(Global.POS3Ip, img).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
-
-        // update the POS1 service status
-		/*
-		SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(this);
-		if (prefs.getBoolean("isstarted", false)) {
-			img = (ImageView) customDialog.findViewById(R.id.litPOSService); 
-			img.setBackgroundResource(R.drawable.presence_online);
-		} else {
-			img = (ImageView) customDialog.findViewById(R.id.litPOSService); 
-			img.setBackgroundResource(R.drawable.presence_busy);	
-		}
-		*/
     }
 
     // Check for connectivity hitting the 204 script and update the UI
@@ -810,23 +870,24 @@ public class LoginActivity extends Activity {
 
         protected Integer doInBackground(Void... params) {
             try {
-                String ip1 = "https://" + Global.ServerIP + Global.ServerReturn204;
+                String ip1 = Global.ProtocolPrefix + Global.ServerIP + Global.ServerReturn204;
                 int status = -1;
                 code = false;
+
                 try {
                     InputStream in = null;
                     URL url = new URL(ip1);
-                    HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
-                    conn.setConnectTimeout(Global.ConnectTimeout);
-                    conn.setReadTimeout(Global.ReadTimeout);
-                    conn.setUseCaches(false);
-                    conn.setAllowUserInteraction(false);
-                    conn.setInstanceFollowRedirects(false);
-                    conn.setRequestMethod("HEAD");
-                    in = conn.getInputStream();
-                    status = conn.getResponseCode();
-                    in.close();
-                    conn.disconnect();
+
+                    OkHttpClient.Builder b = new OkHttpClient.Builder();
+                    b.readTimeout(Global.ReadTimeout, TimeUnit.MILLISECONDS);
+                    b.writeTimeout(Global.ReadTimeout, TimeUnit.MILLISECONDS);
+                    b.connectTimeout(Global.ConnectTimeout, TimeUnit.MILLISECONDS);
+                    final OkHttpClient client = b.build();
+                    Request request = new Request.Builder()
+                            .url(url)
+                            .build();
+                    Response response = client.newCall(request).execute();
+                    status = response.code();
                     if (status == 204) code = true;
                 } catch (Exception e) {
                     code = false;
@@ -847,28 +908,6 @@ public class LoginActivity extends Activity {
                 img.setBackgroundResource(R.drawable.presence_busy);
             }
         }
-    }
-
-    private void createAndRunStatusThread(final Activity act, final CustomDialog cd) {
-        m_bStatusThreadStop = false;
-        m_statusThread = new Thread(new Runnable() {
-            public void run() {
-                while (m_bStatusThreadStop == false) {
-                    try {
-                        //anything touching the GUI has to run on the Ui thread
-                        act.runOnUiThread(new Runnable() {
-                            public void run() {
-                                updateConnectionStatus(cd);
-                            }
-                        });
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        m_bStatusThreadStop = true;
-                    }
-                }
-            }
-        });
-        m_statusThread.start();
     }
 
     private Object jsonGetter2(JSONArray json, String key) {

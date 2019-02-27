@@ -16,18 +16,6 @@
 
 package com.wickapps.android.smartmenuquick;
 
-/*****************************************************************************
- * Quick App
- * Specialized App which can receive orders from 
- * 1) SIM card equipped tablet
- * 2) Push message orders from the Mobile App distributed through a message broker
- *
- * Orders can be printed using the local Service
- * Orders will be sent to the POS App for local storage and Register counters
- * Orders will be sent to the cloud storage through the local service
- * Up to MaxTickets can be displayed
- ******************************************************************************/
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -155,9 +143,9 @@ public class QuickActivity extends Activity {
     private Integer txtSize0, txtSize1, txtSize2, txtSize3, txtSize4;
 
     EditText specET;
-    TextView txt1, txt2, txt3;
+    TextView txt2;
     Dialog dialog;
-
+    private String incomingTableName;
     Locale lc, locale;
     Boolean autoPrint = true;
     Boolean CallStateBusy = false;
@@ -168,9 +156,6 @@ public class QuickActivity extends Activity {
     SharedPreferences prefs;
     Editor prefEdit;
 
-    private String BrokerConnection = "Not Connected";
-    private String BrokerLastHeart = "None";
-
     //Status Thread
     Thread m_statusThread;
     boolean m_bStatusThreadStop;
@@ -179,8 +164,6 @@ public class QuickActivity extends Activity {
     public static final String SM_ACK = "SMACK";  // The order was accepted
     public static final String SM_NACK = "SMNACK"; // The order was not accepted
     public static final String SM_INV = "SMINV";  // The JSON validation failed
-
-    private CustomDialog customDialogDS;
 
     private static ConnectionLog mLog;
 
@@ -193,10 +176,9 @@ public class QuickActivity extends Activity {
     private String infoWifi;
     private String formatTicket;
 
-    private String incomingTableName;
     private String lastIncomingMsgData;
 
-    ListView listOrder, listUnsent, listReload, listCalls;
+    ListView listOrder, listUnsent, listCalls;
     OrderAdapter orderAdapter;
 
     GridView gridview, gridReload;
@@ -204,17 +186,16 @@ public class QuickActivity extends Activity {
 
     GridView ticketview;
     TicketAdapter ticketAdapter;
-    TicketGridAdapter ticketGridAdapter;
 
     ArrayAdapter<String> unsentAdapter, last10Adapter;
 
-    private static int MaxTickets = 20; // total number of tickets
+    private static int MaxTickets = 20; // maximum number of tickets
 
     // Only one table's dishes can be displayed at any time. This ArrayList used to display the DISHES of currentTicketID in ListAdapter
     // It can be set with the dish list of any table by calling setJSONOrderList
     private static ArrayList<JSONArray> JSONOrderList = new ArrayList<JSONArray>();
 
-    // gonna try to kill the following .......................................
+    // In the future, this can be removed...
     // The following string array will hold each of the tables' orders including all dishes (represented with a JSON structure)
     private static String[] JSONOrderStr = new String[MaxTickets];
 
@@ -269,7 +250,7 @@ public class QuickActivity extends Activity {
             "#ffffff", "#3a6e52", "#10000000", "#fad666", "#fe7f3d", "#3a6e52", "#247fca", "#000000", "#bbbbbb", "#111111", "#cd5067"};
     // white    green     clear       yellow    orange    ??        blue      black     gray      gray      red
 
-    private static String[] orderSource = new String[]{"POS Direct", "Phone Order", "Order App", "Mobile App", "Internet Order", "TO Direct"};
+    private static String[] orderSource = new String[]{"POS App", "Phone Order", "Order App", "Mobile App", "Internet Order", "Direct Entry"};
     private static String[] orderSourceColor = new String[]{"#247fca", "#5d9356", "#db35d5", "#fe7f3d", "#ff0000", "#247fca"};
     //                                                         blue       ??        ??        orange    red       blue
 
@@ -482,21 +463,6 @@ public class QuickActivity extends Activity {
                 mHandler.post(mUpdateResults);
             } catch (Exception e) {
                 log("handler mClearSelectedTicket e=" + e);
-            }
-        }
-    };
-
-    final Runnable mUpdateDailySummary = new Runnable() {
-        public void run() {
-            TextView tv = (TextView) customDialogDS.findViewById(R.id.dailySummaryTxt);
-            tv.setText(formatTicket);
-            tv.setTextColor(Color.parseColor(textColors[0]));
-            // modify for POS printer
-            formatTicket = formatTicket.replaceAll("\\r", "");
-            String[] tmpLine = formatTicket.split("\\n");
-            formatTicket = "";
-            for (int i = 0; i < tmpLine.length; i++) {
-                formatTicket = formatTicket + addPad(tmpLine[i]);
             }
         }
     };
@@ -3307,14 +3273,6 @@ public class QuickActivity extends Activity {
                     "TICKETS    ");
         }
 
-        menu.add(0, 5, menu.NONE, "Broker");
-        MenuItem item5 = menu.getItem(5);
-        item5.setIcon(null);
-        item5.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-        String bstate = "\u274C";
-        if (BrokerConnection.equalsIgnoreCase("connected")) bstate = "\u2764";
-        item5.setTitle("Broker" + "\n" + " " + bstate + " ");
-
         SubMenu subMenu8 = menu.addSubMenu(0, 8, menu.NONE, "Tools");
         subMenu8.setIcon(android.R.drawable.ic_menu_preferences);
         subMenu8.add(0, 12, menu.NONE, "Status");
@@ -4179,6 +4137,7 @@ public class QuickActivity extends Activity {
                             JSONOrderStr[newTicketID] = JSONtmp.toString();
                             saveJsonTable(newTicketID, JSONtmp);
                         }
+                        incomingTableName = Global.tablenames.get(newTicketID);
                     } else {
                         Toast.makeText(QuickActivity.this, getString(R.string.msg_no_tickets), Toast.LENGTH_LONG).show();
                     }
