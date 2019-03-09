@@ -488,7 +488,10 @@ public class LoginActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        if (item.getItemId() == 1) {
+            finish();
+            return (true);
+        }
         if (item.getItemId() == 11) {
             // Popup the status window
             LayoutInflater factory = LayoutInflater.from(this);
