@@ -78,7 +78,6 @@ import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -473,8 +472,8 @@ public class LoginActivity extends Activity {
         subMenu0.add(0, 11, menu.NONE, "Status");
         subMenu0.add(0, 12, menu.NONE, "Settings");
         subMenu0.add(0, 13, menu.NONE, "Open Cash Drawer");
-        subMenu0.add(0, 16, menu.NONE, "Staff Management");
-        MenuItem subMenu0Item = subMenu0.getItem();
+
+	    MenuItem subMenu0Item = subMenu0.getItem();
         subMenu0Item.setIcon(android.R.drawable.ic_menu_preferences);
         subMenu0Item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
@@ -579,66 +578,7 @@ public class LoginActivity extends Activity {
             openDrawer();
             return (true);
         }
-        if (item.getItemId() == 16) {
-            LayoutInflater factory = LayoutInflater.from(this);
-            final View textEntryView = factory.inflate(R.layout.user_admin, null);
 
-            final CustomDialog customDialog = new CustomDialog(this);
-            customDialog.setContentView(textEntryView);
-            customDialog.show();
-            customDialog.setCancelable(true);
-            customDialog.setCanceledOnTouchOutside(true);
-
-            listUsers = (ListView) customDialog.findViewById(R.id.listUsers);
-            listUsers.setLongClickable(true);
-            listUsers.setPadding(2, 2, 2, 2);
-            adapterUA = new UserListAdapter(LoginActivity.this, R.layout.cat_item, Global.userList);
-            listUsers.setAdapter(adapterUA);
-
-            Button but1 = (Button) customDialog.findViewById(R.id.butNewUser);
-            but1.setText(getString(R.string.login_new_user));
-            but1.setTextColor(Color.parseColor("#eeeeee"));
-            but1.setOnClickListener(new OnClickListener() {
-                public void onClick(View v) {
-                    if (Global.userList.size() <= 9) {
-                        final Dialog dialogAU = new Dialog(LoginActivity.this);
-                        dialogAU.setContentView(R.layout.add_user);
-                        dialogAU.setCancelable(true);
-                        dialogAU.setCanceledOnTouchOutside(true);
-                        String tit = getString(R.string.login_person_name);
-                        dialogAU.setTitle(tit);
-                        TextView AUtext = (TextView) dialogAU.findViewById(R.id.AUtext);
-                        AUtext.setText(getString(R.string.login_new_user));
-                        AUtext.setTextColor(Color.parseColor("#EEEEEE"));
-                        // edit text box is next
-                        Button AUsave = (Button) dialogAU.findViewById(R.id.AUadd);
-                        AUsave.setText(getString(R.string.login_save));
-                        AUsave.setOnClickListener(new OnClickListener() {
-                            public void onClick(View v) {
-                                EditText specET = (EditText) dialogAU.findViewById(R.id.AUedit);
-                                String specins = specET.getText().toString();
-                                specins = specins.replaceAll("[^\\p{L}\\p{N}-\\s]", "");
-                                if ((specins.length() > 0) && (!Global.userList.contains(specins))) {
-
-                                    Global.userList.add(specins);
-                                    Collections.sort(Global.userList);
-                                    adapterUA.notifyDataSetChanged();
-                                    dialogAU.dismiss();
-
-                                    Editor prefEdit = prefs.edit();
-                                    Set<String> set = new HashSet<String>();
-                                    set.addAll(Global.userList);
-                                    prefEdit.putStringSet("userlist", set);
-                                    prefEdit.commit();
-                                }
-                            }
-                        });
-                        dialogAU.show();
-                    }
-                }
-            });
-            return (true);
-        }
         return (super.onOptionsItemSelected(item));
     }
 
