@@ -223,7 +223,7 @@
 
 	<string name="boot_continue">Continue</string>
 	<string name="boot_title">Initial Settings</string>
-	<string name="boot_intro">Welcome to SmartMenu. Please enter your initial settings. You will not have to enter these settings again. The settings can be changed at a later time.</string>
+    <string name="boot_intro">Please enter your initial settings.</string>
 
 	<string name="register_reg_sum">Register Summary</string>
 	<string name="register_login_time">Login Time</string>

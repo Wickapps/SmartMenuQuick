@@ -224,7 +224,7 @@
 
     <string name="boot_continue">继续</string>
     <string name="boot_textBootTitle">开始设置</string>
-    <string name="boot_textBootIntro">欢迎使用SmartMenu，请进入初始设置. 你不需要进行设置.设置将会生效.</string>
+    <string name="boot_textBootIntro">请进入初始设置.</string>
 
     <string name="register_reg_sum">收银摘要</string>
     <string name="register_login_time">登录时间</string>
